@@ -2,6 +2,10 @@ package com.dto;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class TestScenario {
 
 	private int testScenarioID;
@@ -33,7 +37,7 @@ public class TestScenario {
 		this.isMultipleStepsReq = isMultipleStepsReq;
 		this.mapping = mapping;
 	}
-
+	@XmlElement
 	public int getTestScenarioID() {
 		return testScenarioID;
 	}
@@ -41,7 +45,7 @@ public class TestScenario {
 	public void setTestScenarioID(int testScenarioID) {
 		this.testScenarioID = testScenarioID;
 	}
-
+	@XmlElement
 	public String getModuleName() {
 		return moduleName;
 	}
@@ -49,7 +53,7 @@ public class TestScenario {
 	public void setModuleName(String moduleName) {
 		this.moduleName = moduleName;
 	}
-
+	@XmlElement
 	public String getSubModuleName() {
 		return subModuleName;
 	}
@@ -57,7 +61,7 @@ public class TestScenario {
 	public void setSubModuleName(String subModuleName) {
 		this.subModuleName = subModuleName;
 	}
-
+	@XmlElement
 	public String getScenarioName() {
 		return scenarioName;
 	}
@@ -65,7 +69,7 @@ public class TestScenario {
 	public void setScenarioName(String scenarioName) {
 		this.scenarioName = scenarioName;
 	}
-
+	@XmlElement
 	public String getScenarioCode() {
 		return scenarioCode;
 	}
@@ -73,7 +77,7 @@ public class TestScenario {
 	public void setScenarioCode(String scenarioCode) {
 		this.scenarioCode = scenarioCode;
 	}
-
+	@XmlElement
 	public String getDescription() {
 		return description;
 	}
@@ -81,7 +85,7 @@ public class TestScenario {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	@XmlElement
 	public boolean isActive() {
 		return isActive;
 	}
@@ -89,7 +93,7 @@ public class TestScenario {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
+	@XmlElement
 	public ArrayList<TestScenarioMapping> getMapping() {
 		return mapping;
 	}

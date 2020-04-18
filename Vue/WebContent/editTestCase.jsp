@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 	<script src="js_plugin/bootstable.js" ></script>
 	<script src="js_plugin/confirm.js" ></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Edit Test Case</title>
 </head>
 <body>
@@ -97,6 +98,7 @@ $(document).ready(function() {
 	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
 	  <a class="navbar-brand" href="#">Test Cases Details</a>
+	  <h4><font color="white"><a style="padding-left: 430px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>

@@ -1,32 +1,27 @@
 package com.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.dao.TestCaseDao;
-import com.dao.TestScenarioDao;
-import com.dto.TestCase;
-import com.dto.TestScenario;
+import com.dao.TestCaseMappingDao;
 
 /**
- * Servlet implementation class GetScenario
+ * Servlet implementation class SaveChangeOrder
  */
-@WebServlet("/testScenario")
-public class GetScenario extends HttpServlet {
+@WebServlet("/saveChangeOrder")
+public class SaveChangeOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetScenario() {
+    public SaveChangeOrder() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,28 +31,37 @@ public class GetScenario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		TestScenarioDao testScenario = new TestScenarioDao();
-		String guestName = request.getParameter("guestName");
+		String testCaseIds = request.getParameter("testCaseIds");
+		String testScenarioId = request.getParameter("testScenarioId");
+		String groupId = request.getParameter("groupId");
+		int result = 0;
+		Integer scenarioId = Integer.parseInt(testScenarioId);
+		Integer group = Integer.parseInt(groupId);
 		
-		HttpSession session = request.getSession();
-		session.setAttribute("guestName", guestName);
+		TestCaseMappingDao dao = new TestCaseMappingDao();
 		
 		try {
-			List<TestScenario> testScenarioList  = testScenario.getTestScenario(0);
-			session.setAttribute("testScenarioList", testScenarioList);
+			result = dao.saveMappingOrder(scenarioId, testCaseIds, group);
+			
+			System.out.println(" result : "+result);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		RequestDispatcher rd = request.getRequestDispatcher("scenario.jsp");
-		rd.forward(request, response);
-
 		
-
+		response.setContentType("text/html");
+		PrintWriter pw = response.getWriter();
 		
-	}
-
+		if (result > 0) {
+			pw.print("success@Test Cases mapped successfully.");
+		} else {
+			pw.print("failure@Failed to map Test Cases.");
+		}
+		pw.flush();
+		pw.close();
+}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

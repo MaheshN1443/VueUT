@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Test Cases</title>
 </head>
 <body>
@@ -35,9 +36,11 @@ $(document).ready(function() {
 	List<TestCase> testCase = (List<TestCase>) session.getAttribute("testCaseList");
 %>
 <div class="panel panel-primary" style="margin:20px;">
+<%-- <font color="black"><strong><i><label style="padding-left: 1230px !important;"><i class="fa fa-user" style="font-size:24px"></i>&nbsp;<%=(String)session.getAttribute("guestName")%></label></i></strong></font> --%>
 	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
   	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
 	  <a class="navbar-brand" href="#">Test Cases</a>
+	  <h4><font color="white"><a style="padding-left: 430px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>

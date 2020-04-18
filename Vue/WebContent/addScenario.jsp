@@ -17,13 +17,13 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Add Test Case</title>
+<title>Add Scenario</title>
 </head>
 <script type="text/javascript">
 $(document).ready(function() {
 	var addStatus = $('#addStatus').val();
 	if (addStatus != undefined && addStatus != null && addStatus != '' && addStatus != 'null') {
-		$('#failure').css('display','').html("Failed to add Test Case.");
+		$('#failure').css('display','').html("Failed to add Scenario.");
 		$('#failure').delay(1000).fadeOut('slow');		
 	}
 });
@@ -32,7 +32,7 @@ $(document).ready(function() {
 <div class="panel panel-primary" style="margin:20px;">
 	<a href="javascript:history.back()" style="padding-left: 1246px !important;"><button type="button" class="btn btn-info">Back</button></a>
   	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
-	  <a class="navbar-brand" href="#">Add Test Case</a>
+	  <a class="navbar-brand" href="#">Add Scenario</a>
 	  <h4><font color="white"><a style="padding-left: 430px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
@@ -51,7 +51,7 @@ $(document).ready(function() {
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>	
 	<div class="panel-body">
-	    <form id="addTestCaseForm" action="./addTestCase" method="post">
+	    <form id="addTestScenarioForm" action="./addTestScenario" method="post">
 	    <input type="hidden" id="addStatus" value="<%=(String) request.getAttribute("addStatus")%>">
 		<div class="col-md-12 col-sm-12">
 			<div class="row">
@@ -60,21 +60,31 @@ $(document).ready(function() {
 	            <input type="text" class="form-control input-sm" name="moduleName" value="" required="required">
 	        </div>
 	        <div class="form-group col-md-4 col-sm-8">
-	            <label for="name">Test Case </label>
-	            <input type="text" class="form-control input-sm" name="testCaseName" value="" required="required">
+	            <label for="name">Sub Module </label>
+	            <input type="text" class="form-control input-sm" name="subModule" value="" required="required">
 	        </div>
-	        </div>
-	        <div class="row">
-	        <div class="form-group col-md-4 col-sm-8">
-	            <label for="name">Procedure Name</label>
-	            <input type="text" class="form-control input-sm" name="procName" value="" required="required">
-	        </div>
-	        <div class="form-group col-md-4 col-sm-8">
+	        <div class="form-group col-md-4 col-sm-8" style="padding-top: 6px;">
 	            <label for="name">Active 
 	            <input type="checkbox" class="form-control input-sm" name="isActive">
 	            </label>
 	        </div>
 	        </div>
+	        <div class="row">
+	        <div class="form-group col-md-4 col-sm-8">
+	            <label for="name">Scenario</label>
+	            <input type="text" class="form-control input-sm" name="scenarioName" value="" required="required">
+	        </div>
+	        <div class="form-group col-md-4 col-sm-8">
+	            <label for="name">Scenario Code</label>
+	            <input type="text" class="form-control input-sm" name="scenarioCode" value="" required="required">
+	        </div>
+	        </div>
+	        <div class="row">
+	        <div class="form-group col-md-8 col-sm-8">
+	            <label for="name" >Description</label>
+	            <textarea class="form-control input-lg" rows="4" cols="117" name="description"></textarea>	            
+	        </div>
+	        </div>	        
 	        <div class="row">
 	        <div class="form-group col-md-4 col-sm-8">
 	            <label for="name"></label>

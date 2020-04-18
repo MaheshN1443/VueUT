@@ -65,7 +65,7 @@ public class SaveTestCaseParam extends HttpServlet {
 				testCaseID= Integer.parseInt(testCaseId);
 			}		
 			
-			TestCaseParam param = new TestCaseParam(paramID,testCaseID,paramName,paramValue,direction,valType);
+			TestCaseParam param = new TestCaseParam(paramID,testCaseID,paramName,paramValue,direction,valType,null);
 			
 			TestCaseParamDao p = new TestCaseParamDao();
 			try {

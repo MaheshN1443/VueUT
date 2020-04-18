@@ -16,4 +16,11 @@ public class Util {
 															 			.orElse(null)
 													 : null;
 	}
+	
+	public static String convertXMLData(String data) {
+		if (data != null && data.contains("<Root>")) {
+			return "<xmp>"+data+"</xmp>";
+		}
+		return data;
+	}
 }

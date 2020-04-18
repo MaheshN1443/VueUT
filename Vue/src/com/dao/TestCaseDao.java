@@ -57,7 +57,7 @@ public class TestCaseDao {
             	String valueType = resObj.getString(11);
             	Integer id = new Integer(testId);
             	
-            	TestCaseParam caseParam = new TestCaseParam(testCaseParamId, testId, paramName, paramValue, paramType, valueType);
+            	TestCaseParam caseParam = new TestCaseParam(testCaseParamId, testId, paramName, paramValue, paramType, valueType,null);
             	
             	if (listId != null && !listId.contains(id)) {
             		TestCase tCase = new TestCase();

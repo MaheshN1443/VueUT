@@ -12,12 +12,13 @@ public class TestCaseParam {
 	private String paramValue;
 	private String paramType;
 	private String valueType;
+	private String overrideValue;
 	
 	public TestCaseParam() {
 		
 	}
 	public TestCaseParam(int testCaseParamID, int testCaseID, String paramName, String paramValue, String paramType,
-			String valueType) {
+			String valueType,String overrideValue) {
 		super();
 		this.testCaseParamID = testCaseParamID;
 		this.testCaseID = testCaseID;
@@ -47,7 +48,14 @@ public class TestCaseParam {
 	public String getParamName() {
 		return paramName;
 	}
-
+	
+	@XmlElement	
+	public String getOverrideValue() {
+		return overrideValue;
+	}
+	public void setOverrideValue(String overrideValue) {
+		this.overrideValue = overrideValue;
+	}
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
 	}

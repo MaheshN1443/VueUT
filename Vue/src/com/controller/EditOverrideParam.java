@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -9,24 +10,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.dao.TestCaseDao;
-import com.dao.TestScenarioDao;
+import com.dao.TestCaseMappingDao;
 import com.dto.TestCase;
-import com.dto.TestScenario;
+import com.dto.TestCaseParam;
 
 /**
- * Servlet implementation class EditScenario
+ * Servlet implementation class EditOverrideParam
  */
-@WebServlet("/editScenario")
-public class EditScenario extends HttpServlet {
+@WebServlet("/editOverrideParam")
+public class EditOverrideParam extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditScenario() {
+    public EditOverrideParam() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,26 +34,25 @@ public class EditScenario extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		HttpSession session = request.getSession();
-		String id = request.getParameter("testScenarioID");
-		Integer testScenarioID = Integer.parseInt(id);
-		System.out.println("testScenarioID :"+testScenarioID);
+		String mappingId = request.getParameter("mappingId");
+	
+		Integer id = Integer.parseInt(mappingId);
 		
-		TestScenarioDao caseDao = new TestScenarioDao();
+		TestCaseMappingDao ts = new TestCaseMappingDao();
+		
+		List<TestCaseParam> testCaseParams = new ArrayList<>();
+		
 		try {
-			List<TestScenario> testScenarioList = caseDao.getTestScenario(testScenarioID.intValue());
-			TestScenario testScenario = testScenarioList.stream().filter(p -> p.getTestScenarioID() == testScenarioID.intValue()).findFirst().orElse(null);
-			request.setAttribute("testScenario", testScenario);
-			System.out.println("testScenario :"+testScenario);
+			testCaseParams =ts.getParamListByMapp(id);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("editScenario.jsp");
-		rd.forward(request, response);
-		
-
+		request.setAttribute("mappingId", mappingId);
+		request.setAttribute("testCaseParams", testCaseParams);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("changeOverrideParams.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	/**

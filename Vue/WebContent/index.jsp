@@ -60,8 +60,59 @@ body, html {
 	<div class="page-header">
     	<h1>Vue Home</h1>      
   	</div>
-	<a href="./testScenario"><button type="button" class="btn btn-primary">Scenario</button></a><br><br>
-	<a href="./testCase"><button type="button" class="btn btn-primary">Test Case</button></a>
+	<button type="button" onclick="openPopup('testScenario');" class="btn btn-primary">Scenario</button><br><br>
+	<button type="button" onclick="openPopup('testCase');" class="btn btn-primary">Test Case</button>
 </div>
+<!--Modal: Login with Avatar Form-->
+<div class="modal fade" id="modalLoginAvatar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
+    <!--Content-->
+    <div class="modal-content">
+
+      <!--Header-->
+      <div class="modal-header">
+        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg" alt="avatar" class="rounded-circle img-responsive">
+      </div>
+      <!--Body-->
+      <div class="modal-body text-center mb-1">
+
+        <h5 class="mt-1 mb-2">Guest Login</h5>
+		<form id="form123">
+        <div class="md-form ml-0 mr-0">
+          <input type="text" id="form29" class="form-control form-control-sm validate ml-0" autocomplete="name" autofocus>
+        </div>
+
+        <div class="text-center mt-4">
+          <button class="btn btn-primary mt-1" onclick="subForm();">Login</button>
+          <input type="hidden" name="actionName" id="actionName">
+          <input type="hidden" name="guestName" id="guestName">
+        </div>
+        </form>
+      </div>
+
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: Login with Avatar Form-->
+<script type="text/javascript">
+function subForm() {
+	var guestName = $('#form29').val();
+	if (guestName == undefined || guestName == null || guestName == '') {
+		alert('Guest Name is required');
+		return false;
+	}
+	$("#form123 input[name=guestName]:hidden").val(guestName);
+	var actionName = $('#actionName').val();
+	var actionUrl = './'+actionName;
+	document.getElementById("form123").action = actionUrl;
+	document.getElementById("form123").submit();
+}
+function openPopup(actionName) {
+	$('#actionName').val(actionName);
+	$('#modalLoginAvatar').modal('toggle');
+}
+</script>
 </body>
 </html>

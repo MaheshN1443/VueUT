@@ -1,11 +1,17 @@
 package com.dao;
 
+import java.io.StringWriter;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import com.dto.TestCase;
 import com.dto.TestCaseParam;
@@ -96,5 +102,40 @@ public class TestScenarioDao {
 		return testScenario;
 	}	
 
+	
+	public int saveTestScenario(TestScenario ts) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int testScenarioID=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+			JAXBContext jaxbcontext = JAXBContext.newInstance(TestScenario.class);
+			Marshaller jaxbMarshaller = jaxbcontext.createMarshaller();
+			jaxbMarshaller.marshal(ts, s);
+	
+            Statement stmt = con.createStatement();
+            
+            CallableStatement p = con.prepareCall("{call pICs_VueTestScenario(?,?)}");
+           // create or replace stored procedure
+
+            p.setString(1, s.toString());
+            //Registering the type of the OUT parameters
+            p.registerOutParameter(2, Types.INTEGER);
+            p.executeUpdate();
+            
+            testScenarioID = p.getInt(2);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return testScenarioID;
+	}	
+	
+	
 	
 }

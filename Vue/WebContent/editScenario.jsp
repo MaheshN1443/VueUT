@@ -15,9 +15,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 	<link rel="stylesheet" href="css/choosen_bootstrap.css" />
  	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ 	 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  	<!-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
@@ -29,6 +30,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 	<!-- <script src="js_plugin/bootstable.js" ></script> -->
 	<script src="js_plugin/confirm.js" ></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Edit Scenario</title>
 </head>
 <body>
@@ -67,7 +69,7 @@ $(document).ready(function() {
                     last = group;
                 }
             } );
-        },
+        }
         //rowReorder: true
     } );
  
@@ -85,6 +87,7 @@ $(document).ready(function() {
 
 function mapTestCase() {
 	var testCaseIds = $('#testCaseIds').val().toString();
+	var testScenarioId = $('#testScenarioID').val().toString();
 	var groupId = $('#groupId').val();
 	if (testCaseIds == undefined || testCaseIds == null || testCaseIds == '') {
 		alert('Please map atleast one Test Case.');
@@ -94,51 +97,19 @@ function mapTestCase() {
 		alert('Please select Group Id.');
 		return false;
 	}
-	var actionUrl = 'mapTestCase?testCaseIds='+testCaseIds+'&groupId='+groupId;
+	var actionUrl = 'saveTestCaseMapping?testCaseIds='+testCaseIds+'&groupId='+groupId+'&testScenarioId='+testScenarioId;
 	$.ajax({
 		url : actionUrl,
 		type : 'POST',
 		async : false,
 		success : function(response) {
-			console.log("response >>>"+response);
+			//console.log("response >>>"+response);
 			//alert('Data saved Successfully !!!');
 			sessionStorage.reloadAfterPageLoad = response;
 			location.reload();
 		}
 	});
 }
-function listboxMove(listID, direction) {
-    var listbox = document.getElementById(listID);
-    var selIndex = listbox.selectedIndex;
-    if (-1 == selIndex) {
-      alert("Please select an option to move.");
-      return;
-    }
-    var increment = -1;
-    if (direction == 'up')
-      increment = -1;
-    else
-      increment = 1;
-    if ((selIndex + increment) < 0 ||
-      (selIndex + increment) > (listbox.options.length - 1)) {
-      return;
-    }
-    var selValue = listbox.options[selIndex].value;
-    var selText = listbox.options[selIndex].text;
-    listbox.options[selIndex].value = listbox.options[selIndex + increment].value
-    listbox.options[selIndex].text = listbox.options[selIndex + increment].text
-    listbox.options[selIndex + increment].value = selValue;
-    listbox.options[selIndex + increment].text = selText;
-    listbox.selectedIndex = selIndex + increment;
-  }
-  try {
-	  var arr = [];
-	  $("#lst > option").each(function(){
-	     arr.push(this.value);
-	  });
-  } catch(e) {
-	  
-  }
 </script>
 
 <script type="text/javascript">
@@ -201,6 +172,35 @@ $(document).ready(function() {
 	$(document).ready(function() {
 		//removeTC();
 	});
+    function callModalPopup(groupId) {
+    	var testScenarioId = $('#testScenarioID').val().toString();
+    	var actionUrl = 'changeOrder?testScenarioId='+testScenarioId+'&groupId='+groupId;
+    	$.ajax({
+    		url : actionUrl,
+    		type : 'POST',
+    		async : false,
+    		success : function(response) {
+    			//console.log("response >>>"+response);
+    			//alert('Data saved Successfully !!!');
+    			$('#myModal').html(response);
+    			$('#myModal').modal('toggle');
+    		}
+    	});
+    }
+    function callModalEditPopup(mappingId) {
+    	var actionUrl = 'editOverrideParam?mappingId='+mappingId;
+    	$.ajax({
+    		url : actionUrl,
+    		type : 'POST',
+    		async : false,
+    		success : function(response) {
+    			//console.log("response >>>"+response);
+    			//alert('Data saved Successfully !!!');
+    			$('#myModalEdit').html(response);
+    			$('#myModalEdit').modal('toggle');
+    		}
+    	});
+    }
 </script>
 <%
 	TestCaseDao caseDao = new TestCaseDao();
@@ -211,6 +211,7 @@ $(document).ready(function() {
 	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
 	  <a class="navbar-brand" href="#">Scenario Details</a>
+	  <h4><font color="white"><a style="padding-left: 430px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -237,6 +238,15 @@ $(document).ready(function() {
 	            <label for="name">Sub Module</label>
 	            <input type="text" class="form-control input-sm" value="<%=tc.getSubModuleName()%>" disabled="disabled">
 	        </div>
+	        <div class="form-group col-md-2 col-sm-4" style="padding-top: 7px;">
+	        <label for="name">Active 
+	            <%if(tc.isActive()) { %>
+	            <input type="checkbox" class="form-control input-sm" checked="checked" disabled="disabled">
+	            <%} else { %>
+	            <input type="checkbox" class="form-control input-sm" disabled="disabled">
+	            <%} %>
+	            </label>
+	            </div>
 	        </div>
 	        <div class="row">
 	        <div class="form-group col-md-4 col-sm-8">
@@ -244,6 +254,10 @@ $(document).ready(function() {
 	            <input type="text" class="form-control input-sm" value="<%=tc.getScenarioName()%>" disabled="disabled">
 	        </div>
 	        <div class="form-group col-md-4 col-sm-8">
+	            <label for="name">Scenario Code</label>
+	            <input type="text" class="form-control input-sm" value="<%=tc.getScenarioCode()%>" disabled="disabled">
+	        </div>
+	        <%-- <div class="form-group col-md-4 col-sm-8">
 	            <label for="name">Active 
 	            <%if(tc.isActive()) { %>
 	            <input type="checkbox" class="form-control input-sm" checked="checked" disabled="disabled">
@@ -251,7 +265,7 @@ $(document).ready(function() {
 	            <input type="checkbox" class="form-control input-sm" disabled="disabled">
 	            <%} %>
 	            </label>
-	        </div>
+	        </div> --%>
 	        <input type="hidden" id="testScenarioID" value="<%=tc.getTestScenarioID()%>">
 	        </div>
 	        <div class="row">
@@ -294,16 +308,17 @@ $(document).ready(function() {
 		</div>
 		</div>
 	</form>
+	<br>
 	<div class="alert alert-success alert-dismissible" id="success" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 	<div class="alert alert-danger alert-dismissible" id="failure" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
-	<div class="card-body">
+	<div class="card-body table-responsive">
         <!-- <button class="btn btn-primary" id="submit_data">Submit</button> -->
    <table class="table table-responsive-md table-sm table-bordered" id="makeEditable">
-	<thead>
+	<thead  class="table table-bordered">
 		<tr>
 		<th width="10%">Group</th>
 		<th width="5%">Seq.</th>
@@ -318,7 +333,16 @@ $(document).ready(function() {
 			<%
 			
 			int testCaseID=0;
-			if (tcp != null) {
+			int size = (tcp != null && !tcp.isEmpty()) ? tcp.size() : 0;
+			boolean status = true;
+			if (size == 1) {
+				int scId = tcp.get(0).getTestScenarioMappingID();
+				if (scId == 0) {
+					status = false;
+				}
+			}
+			
+			if (tcp != null && status) {
 				for(TestScenarioMapping mapping: tcp) {
 					String overrideparam = mapping.getOverrideParamName();
 					String overrideparamval = mapping.getOverrideParamVal();
@@ -330,15 +354,15 @@ $(document).ready(function() {
 			%>
 				<tr>
 				<td><%="Group-"+mapping.getOccuranceGroup()%>
-				  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" style="margin-left: 1050px !important;">Change Order</button>
+				  <button type="button" class="btn btn-success" onclick="callModalPopup(<%=mapping.getOccuranceGroup()%>);" style="margin-left: 1050px !important;">Change Order</button>
 				</td>
 				<td><%=mapping.getTestScenarioMappingID()%></td>
 				<td><%=tcName%></td>
 				<td> <%=mapping.getOverrideParamName()%></td>
-				<td> <%="<xmp>"+mapping.getOverrideParamVal()+"</xmp>"%></td>
+				<td> <%=Util.convertXMLData(mapping.getOverrideParamVal())%></td>
 				<td><%=mapping.getExecutionOrder()%></td>
 				<td>
-					<a href="#"><button type="button" class="btn btn-info" >Edit</button></a>
+					<button type="button" class="btn btn-info" onclick="callModalEditPopup(<%=mapping.getTestScenarioMappingID()%>);">Edit</button>
 					<a href="#"><button type="button" class="btn btn-danger" >Delete</button></a>
 				</td>
 				<%-- <td><a href="./editTestCaseParam?testCaseParamID=<%=params.getTestCaseParamID()%>"><button type="button" class="btn btn-info" >Edit</button></a></tr> --%>
@@ -347,8 +371,8 @@ $(document).ready(function() {
 				}
 			} else {
 			%>
-			<tr colspan="5">
-				<td>No records to display.</td>
+			<tr >
+				<td colspan="7">No records to display.</td>
 			</tr>
 			<%}%>		</tbody>
 	</table>
@@ -357,52 +381,8 @@ $(document).ready(function() {
       </div>
 	</div>
 	<!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Test Case Ordering</h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        	<div class="panel-body">
-	
-		<div class="col-md-12 col-sm-12">
-<div class="row">
-				<div class="form-group col-md-8 col-sm-8">
-				<lable>&nbsp;</lable>
-  <select id="lst" size="8" class="form-control" style="width: 300px;" multiple="">
-        <option value="1">Merbin</option>
-        <option value="2">Franklin</option>
-        <option value="3">Jose</option>
-        <option value="4">Geetha Geetha Geetha Geetha</option>
-        <option value="5">Jino</option>
-        <option value="6">Ganesh</option>
-        <option value="7">Kumar</option>
-        <option value="8">Reegan</option>
-  <option value="9">Rajesh</option>
-  </select>
-  </div>
-	<div class="form-group col-md-2 col-sm-4" style="padding-top: 26px !important;">
-	<br>
-	<br>
-	
-  <button class="btn btn-secondary btn-sm"  onclick="listboxMove('lst', 'up');"><i class="fas fa-angle-up"></i></button><br><br>
-  <button class="btn btn-secondary btn-sm"  onclick="listboxMove('lst', 'down');"><i class="fas fa-angle-down"></i></button>
-	</div>
-</div>
-  
-</div>
-</div>
-        <div class="modal-footer">
-		<button type="button" class="btn btn-primary">Save</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  <div class="modal fade" id="myModal" role="dialog"></div>
+  <div class="modal fade" id="myModalEdit" role="dialog"></div>
   
 </div>
 </body>

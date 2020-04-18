@@ -78,7 +78,13 @@ public class TestScenarioMapping {
 	public void setOccuranceGroup(int occuranceGroup) {
 		this.occuranceGroup = occuranceGroup;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "TestScenarioMapping [testScenarioMappingID=" + testScenarioMappingID + ", testScenarioID="
+				+ testScenarioID + ", testCaseID=" + testCaseID + ", overrideParamName=" + overrideParamName
+				+ ", overrideParamVal=" + overrideParamVal + ", overrideVal=" + overrideVal + ", expressionParamList="
+				+ expressionParamList + ", executionOrder=" + executionOrder + ", occuranceGroup=" + occuranceGroup
+				+ "]";
+	}
 	
 }

@@ -37,9 +37,12 @@ public class GetTestCase extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
+		String guestName = request.getParameter("guestName");
+		
 		TestCaseDao testCase = new TestCaseDao();
 		
 		HttpSession session = request.getSession();
+		session.setAttribute("guestName", guestName);
 		
 		try {
 			List<TestCase> testCaseList  = testCase.getTestCase(0);

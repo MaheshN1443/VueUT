@@ -57,11 +57,13 @@ public class TestCaseMappingDao {
 		
 		try {
 			
-            CallableStatement p = con.prepareCall("{call pICd_TestCaseMapping(?)}");
+            CallableStatement p = con.prepareCall("{call pICd_TestCaseMapping(?,?)}");
             // create or replace stored procedure
             p.setInt(1, mappingId);
-
             
+            p.registerOutParameter(2, Types.INTEGER);
+            p.executeUpdate();
+            statusOutput = p.getInt(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

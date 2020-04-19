@@ -1,33 +1,27 @@
 package com.controller;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.dao.TestCaseDao;
 import com.dao.TestScenarioDao;
-import com.dto.TestCase;
-import com.dto.TestScenario;
 
 /**
- * Servlet implementation class GetScenario
+ * Servlet implementation class DeleteTestScenario
  */
-@WebServlet("/testScenario")
-public class GetScenario extends HttpServlet {
+@WebServlet("/deleteTestScenario")
+public class DeleteTestScenario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetScenario() {
+    public DeleteTestScenario() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,27 +30,31 @@ public class GetScenario extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		TestScenarioDao testScenario = new TestScenarioDao();
-		String guestName = request.getParameter("guestName");
-		
-		HttpSession session = request.getSession();
-		session.removeAttribute("guestName");
-		session.setAttribute("guestName", guestName);
+		String scenarioId = request.getParameter("scenarioId");
+		Integer id = Integer.parseInt(scenarioId);
+		int result= 0;
+		TestScenarioDao dao = new TestScenarioDao();
 		
 		try {
-			List<TestScenario> testScenarioList  = testScenario.getTestScenario(0);
-			session.setAttribute("testScenarioList", testScenarioList);
+			result =dao.deleteTestScenario(id);		
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 
-		RequestDispatcher rd = request.getRequestDispatcher("scenario.jsp");
-		rd.forward(request, response);
-
+		response.setContentType("text/html");
+		PrintWriter pw = response.getWriter();
 		
-
+		if (result > 0) {
+			pw.print("success@Scenario deleted successfully.");
+		} else {
+			pw.print("failure@Failed to delete Scenario.");
+		}
+		pw.flush();
+		pw.close();
+		
+		
 		
 	}
 

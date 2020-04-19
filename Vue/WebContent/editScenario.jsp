@@ -187,6 +187,22 @@ $(document).ready(function() {
     		}
     	});
     }
+    
+    function deleteMapping(mappingId) {  //Elimina la fila actual
+        var result = confirm("Do you want to delete?");
+        if (result) {
+            $.ajax({
+        		url : 'deleteMapping?mappingId='+mappingId,
+        		type : 'POST',
+        		async : false,
+        		success : function(response) {
+        			sessionStorage.reloadAfterPageLoad = response;
+        			location.reload();
+        		}
+        	});
+        }
+    }
+    
     function callModalEditPopup(mappingId) {
     	var actionUrl = 'editOverrideParam?mappingId='+mappingId;
     	$.ajax({
@@ -211,7 +227,7 @@ $(document).ready(function() {
 	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
 	  <a class="navbar-brand" href="#">Scenario Details</a>
-	  <h4><font color="white"><a style="padding-left: 430px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
+	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -221,6 +237,7 @@ $(document).ready(function() {
 	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">
+	      <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
 	      <a href="./"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
 	      <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case Param</button> -->
 	    </form>
@@ -363,11 +380,10 @@ $(document).ready(function() {
 				<td><%=mapping.getExecutionOrder()%></td>
 				<td>
 					<button type="button" class="btn btn-info" onclick="callModalEditPopup(<%=mapping.getTestScenarioMappingID()%>);">Edit</button>
-					<a href="#"><button type="button" class="btn btn-danger" >Delete</button></a>
+					<button type="button" class="btn btn-danger" onclick="deleteMapping(<%=mapping.getTestScenarioMappingID()%>);">Delete</button>
 				</td>
 				<%-- <td><a href="./editTestCaseParam?testCaseParamID=<%=params.getTestCaseParamID()%>"><button type="button" class="btn btn-info" >Edit</button></a></tr> --%>
 				<%
-
 				}
 			} else {
 			%>

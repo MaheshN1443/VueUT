@@ -44,7 +44,7 @@ public class TestScenarioDao {
             	q.append(" where testScenarioID="+testScenarId+" ");
             }
             
-            q.append(" order by testScenarioID,occuranceGroup,executionOrder");
+            q.append(" order by testScenarioID ,occuranceGroup,executionOrder");
             resObj = stmt.executeQuery(q.toString());
             
             
@@ -102,6 +102,31 @@ public class TestScenarioDao {
 		return testScenario;
 	}	
 
+	public int deleteTestScenario(int scenarioId) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int statusOutput=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+            CallableStatement p = con.prepareCall("{call pICd_TestScenario(?,?)}");
+            // create or replace stored procedure
+            p.setInt(1, scenarioId);
+            
+            p.registerOutParameter(2, Types.INTEGER);
+            p.executeUpdate();
+            statusOutput = p.getInt(2);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return statusOutput;
+	}	
+	
 	
 	public int saveTestScenario(TestScenario ts) throws SQLException, ClassNotFoundException
 	{

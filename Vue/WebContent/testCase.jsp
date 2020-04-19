@@ -23,10 +23,44 @@
 <body>
 <script type="text/javascript">
 $(document).ready(function() {
+	try {
+		var prvMessage = sessionStorage.reloadAfterPageLoad;
+		if (prvMessage != undefined && prvMessage != null && prvMessage != '') {
+			var strArray = prvMessage.split("@");
+			var status = strArray[0];
+			var message = strArray[1];
+			sessionStorage.reloadAfterPageLoad = '';
+			
+			if (status == 'success') {
+				$('#success').css('display','').html(message);
+				$('#success').delay(1000).fadeOut('slow');
+			} else {
+				$('#failure').css('display','').html(message);
+				$('#failure').delay(1000).fadeOut('slow');
+			}
+			
+		}	
+	} catch (e) {
+		console.log("Error >>"+e);
+	}
     $('#example').DataTable({
     	rowReorder: true
     });
 });
+function deleteTestCase(testCaseId) {  //Elimina la fila actual
+    var result = confirm("Do you want to delete?");
+    if (result) {
+        $.ajax({
+    		url : 'deleteTestCase?testCaseId='+testCaseId,
+    		type : 'POST',
+    		async : false,
+    		success : function(response) {
+    			sessionStorage.reloadAfterPageLoad = response;
+    			location.reload();
+    		}
+    	});
+    }
+}
 </script>
 <!-- <p>Vue App</p>
 <a href="./MyServlet">Please click here</a>
@@ -40,7 +74,7 @@ $(document).ready(function() {
 	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
   	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
 	  <a class="navbar-brand" href="#">Test Cases</a>
-	  <h4><font color="white"><a style="padding-left: 430px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
+	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -50,11 +84,19 @@ $(document).ready(function() {
 	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">
+	    <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
 	      <a href="./"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
 	      <a href="./addTestCase.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case</button></a>
 	    </form>
 	  </div>
 	</nav>
+	<br>
+	<div class="alert alert-success alert-dismissible" id="success" style="display: none;">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+	<div class="alert alert-danger alert-dismissible" id="failure" style="display: none;">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
 	<table id="example" class="table table-condensed">
 		<thead>
 			<tr>
@@ -86,7 +128,7 @@ $(document).ready(function() {
 				<td><%=tc.getEntityTypeID() %></td>
 				<td>
 				<a href="./editTestCase?testCaseID=<%=tc.getTestCaseID()%>"><button type="button" class="btn btn-info" >Edit</button></a>
-				<a href="#"><button type="button" class="btn btn-danger" >Delete</button></a>
+				<button type="button" class="btn btn-danger" onclick="deleteTestCase(<%=tc.getTestCaseID()%>);">Delete</button>
 				</tr>
 				<%
 				}

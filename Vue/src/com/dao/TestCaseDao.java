@@ -40,7 +40,7 @@ public class TestCaseDao {
             	q.append(" where testCaseID="+testCaseId+" ");
             }
             
-            q.append(" order by testCaseID");
+            q.append(" order by testCaseID desc");
             resObj = stmt.executeQuery(q.toString());
             while (resObj.next()) {
 
@@ -85,6 +85,34 @@ public class TestCaseDao {
         }
 		return testCases;
 	}	
+
+	
+	public int deleteTestCase(int testCaseId) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int statusOutput=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+            CallableStatement p = con.prepareCall("{call pICd_TestCase(?,?)}");
+            // create or replace stored procedure
+            p.setInt(1, testCaseId);
+            
+            p.registerOutParameter(2, Types.INTEGER);
+            p.executeUpdate();
+          
+            statusOutput = p.getInt(2);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} 
+		return statusOutput;
+	}	
+	
+	
 	
 	public int callSpTestCase(TestCase tc) throws SQLException, ClassNotFoundException
 	{

@@ -72,7 +72,7 @@ body, html {
 
       <!--Header-->
       <div class="modal-header">
-        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg" alt="avatar" class="rounded-circle img-responsive">
+        <img src="images/USER01.png" alt="avatar" class="rounded-circle img-responsive">
       </div>
       <!--Body-->
       <div class="modal-body text-center mb-1">

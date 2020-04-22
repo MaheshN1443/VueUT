@@ -42,8 +42,8 @@ public class GetTestCase extends HttpServlet {
 		TestCaseDao testCase = new TestCaseDao();
 		
 		HttpSession session = request.getSession();
-		session.removeAttribute("guestName");
-		session.setAttribute("guestName", guestName);
+		/*session.removeAttribute("guestName");
+		session.setAttribute("guestName", guestName);*/
 		
 		try {
 			List<TestCase> testCaseList  = testCase.getTestCase(0);

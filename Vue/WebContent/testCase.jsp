@@ -85,7 +85,7 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">
 	    <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
+	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
 	      <a href="./addTestCase.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case</button></a>
 	    </form>
 	  </div>

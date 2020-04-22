@@ -65,11 +65,14 @@ function saveOverrideParams() {
 	}
 	var mappingIdParam = $('#mappingIdParam').val();
 
-  	var actionUrl = 'saveOverrideParams?mappingId='+mappingIdParam+'&jsonData='+JSON.stringify(obj);
+  	var actionUrl = 'saveOverrideParams?mappingId='+mappingIdParam;
 	$.ajax({
 		url : actionUrl,
 		type : 'POST',
 		async : false,
+		data  : {
+			'jsonData' : JSON.stringify(obj)
+		}, 
 		success : function(response) {
 			//console.log("response >>>"+response);
 			//alert('Data saved Successfully !!!');
@@ -108,13 +111,19 @@ function saveOverrideParams() {
 			for (TestCaseParam dto: testCaseParams) {
 				String paramValue = dto.getParamValue();
 				boolean isXml = (paramValue != null && paramValue.contains("<Root>")) ? true : false;
-				if (isXml) {
-					paramValue = "<xmp>"+paramValue+"</xmp>";
-				}
 			%>
             <tr>
               <td><%=dto.getParamName()%></td>
-              <td><%=paramValue%></td>
+              <%
+              	if (isXml) {
+              	%>
+              	<td>
+              		<textarea rows="5" cols="60" disabled="disabled"><%=paramValue%></textarea>
+              	</td>
+              	<% } else { %>
+              	<td><%=paramValue%></td>
+              	<% } %>
+              
               <td><input type="text" id="paramId<%=dto.getTestCaseParamID()%>" class="form-control" value="<%=dto.getOverrideValue()%>"></td>
               <td><input type="checkbox" id="checkId<%=dto.getTestCaseParamID()%>"></td>
             </tr>

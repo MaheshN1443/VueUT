@@ -238,7 +238,7 @@ $(document).ready(function() {
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">
 	      <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
+	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
 	      <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case Param</button> -->
 	    </form>
 	  </div>
@@ -367,7 +367,8 @@ $(document).ready(function() {
 		List<TestCase> tcList = caseDao.getTestCase(testCaseID);
 		TestCase testCase1 = Util.getTCObjByMatchId(tcList, testCaseID);
 		String tcName = (testCase1 != null) ? testCase1.getTestCaseName() : "";
-	
+		String paramValue = mapping.getOverrideParamVal();
+		boolean isXml = (paramValue != null && paramValue.contains("<Root>")) ? true : false;
 			%>
 				<tr>
 				<td><%="Group-"+mapping.getOccuranceGroup()%>
@@ -376,7 +377,15 @@ $(document).ready(function() {
 				<td><%=mapping.getTestScenarioMappingID()%></td>
 				<td><%=tcName%></td>
 				<td> <%=mapping.getOverrideParamName()%></td>
-				<td> <%=Util.convertXMLData(mapping.getOverrideParamVal())%></td>
+				<%
+              	if (isXml) {
+              	%>
+              	<td>
+              		<textarea rows="5" cols="60" disabled="disabled"><%=paramValue%></textarea>
+              	</td>
+              	<% } else { %>
+              	<td><%=paramValue%></td>
+              	<% } %>
 				<td><%=mapping.getExecutionOrder()%></td>
 				<td>
 					<button type="button" class="btn btn-info" onclick="callModalEditPopup(<%=mapping.getTestScenarioMappingID()%>);">Edit</button>

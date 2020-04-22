@@ -41,9 +41,9 @@ public class GetScenario extends HttpServlet {
 		String guestName = request.getParameter("guestName");
 		
 		HttpSession session = request.getSession();
-		session.removeAttribute("guestName");
+		/*session.removeAttribute("guestName");
 		session.setAttribute("guestName", guestName);
-		
+		*/
 		try {
 			List<TestScenario> testScenarioList  = testScenario.getTestScenario(0);
 			session.setAttribute("testScenarioList", testScenarioList);

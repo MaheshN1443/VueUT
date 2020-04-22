@@ -141,9 +141,12 @@ function rowAcep(but) {
     var valType = $row.find("td:eq(4) option:selected").text();
     
     $.ajax({
-		url : 'saveTestCaseParam?testCaseParamId='+seqId+'&testCaseId='+testCaseId+'&paramName='+paramName+'&paramValue='+paramValue+'&direction='+direction+'&valType='+valType,
+		url : 'saveTestCaseParam?testCaseParamId='+seqId+'&testCaseId='+testCaseId+'&paramName='+paramName+'&direction='+direction+'&valType='+valType,
 		type : 'POST',
 		async : false,
+		data  : {
+			'paramValue' : paramValue
+		}, 
 		success : function(response) {
 			console.log("response >>>"+response);
 			//alert('Data saved Successfully !!!');
@@ -204,7 +207,13 @@ function rowEdit(but) {
         if (count < 1) {
         	input = '<input class="form-control input-sm"  value="' + cont + '" disabled="disabled">';
         } else {
-        	if (count == 3) {
+        	if (count == 2) {
+        		if (cont != undefined && cont != null && cont != '' && cont.includes('&lt;Root&gt;')) {
+        			input = '<textarea rows="5" cols="60">' + cont + '</textarea>';
+        		} else {
+        			input = '<input class="form-control input-sm"  value="' + cont + '">';
+        		}
+        	} else if (count == 3) {
         		direcData = cont;
         		input = '<select class="form-control" id="direc"><option value="Input">Input</option><option value="Output">Output</option></select>';
         	} 

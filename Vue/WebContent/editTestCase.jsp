@@ -23,7 +23,7 @@
 			<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-	<script src="js_plugin/bootstable.js" ></script>
+	<script src="js_plugin/bootstable.js?v=0.3" ></script>
 	<script src="js_plugin/confirm.js" ></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>Edit Test Case</title>
@@ -109,7 +109,7 @@ $(document).ready(function() {
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">
 	    <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
+	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
 	      <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case Param</button> -->
 	    </form>
 	  </div>
@@ -153,6 +153,7 @@ $(document).ready(function() {
 	</div>
 	<div class="card-body">
 	<span style="float:right"><button id="but_add" class="btn btn-danger">Add Parameter</button></span>
+	<br><br>
         <!-- <button class="btn btn-primary" id="submit_data">Submit</button> -->
    <table class="table table-responsive-md table-sm table-bordered" id="makeEditable">
 	<thead>
@@ -170,13 +171,23 @@ $(document).ready(function() {
 				for(TestCaseParam params: tcp) {
 					String pN = params.getParamName();
 					String pt = params.getParamType();
+					String paramValue = params.getParamValue();
+					boolean isXml = (paramValue != null && paramValue.contains("<Root>")) ? true : false;
 					String ptVal = (pt != null && pt.trim().equalsIgnoreCase("O"))? "Output" : "Input";
 					if (pN != null) {
 				%>
 				<tr>
 				<td><%=params.getTestCaseParamID()%></td>
 				<td><%=params.getParamName() %></td>
-				<td> <%=params.getParamValue()%></td>
+				<%
+              	if (isXml) {
+              	%>
+              	<td>
+              		<textarea rows="5" cols="60" disabled="disabled"><%=paramValue%></textarea>
+              	</td>
+              	<% } else { %>
+              	<td><%=paramValue%></td>
+              	<% } %>
 				<td> <%=ptVal %>
 				</td>
 				<td><%=params.getValueType()%></td>

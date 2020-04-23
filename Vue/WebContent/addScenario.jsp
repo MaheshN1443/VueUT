@@ -30,27 +30,14 @@ $(document).ready(function() {
 </script>
 <body>
 <div class="panel panel-primary" style="margin:20px;">
-	<a href="javascript:history.back()" style="padding-left: 1246px !important;"><button type="button" class="btn btn-info">Back</button></a>
-  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
-	  <a class="navbar-brand" href="#">Add Scenario</a>
-	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
-	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navb">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item">
-	      </li>
-	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
-	    </form>
-	  </div>
-	</nav>
+	  	<jsp:include page="navInclude.jsp"/>
 	<div class="alert alert-danger alert-dismissible" id="failure" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>	
+	<div class="page-header">
+	  <h1>Add Scenario</h1>
+	  <hr>
+	</div>
 	<div class="panel-body">
 	    <form id="addTestScenarioForm" action="./addTestScenario" method="post">
 	    <input type="hidden" id="addStatus" value="<%=(String) request.getAttribute("addStatus")%>">
@@ -90,7 +77,7 @@ $(document).ready(function() {
 	        <div class="form-group col-md-4 col-sm-8">
 	            <label for="name"></label>
 	            <!-- <input type="submit" class="form-control input-sm" name="Submit"> -->
-	            <button type="submit" class="btn btn-primary btn-lg">Add</button>
+	            <button type="submit" class="btn btn-primary btn-lg purpule">Add</button>
 	        </div>
 	        <div class="form-group col-md-4 col-sm-8">
 	        </div>

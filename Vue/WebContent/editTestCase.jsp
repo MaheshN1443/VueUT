@@ -23,10 +23,10 @@
 			<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-	<script src="js_plugin/bootstable.js?v=0.3" ></script>
+	<script src="js_plugin/bootstable.js?v=0.5" ></script>
 	<script src="js_plugin/confirm.js" ></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Edit Test Case</title>
+<title>Test Case Details</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -95,27 +95,13 @@ $(document).ready(function() {
 	List<TestCaseParam> tcp = tc.getParams();
 %>
 <div class="panel panel-primary" style="margin:20px;">
-	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
-	  <a class="navbar-brand" href="#">Test Cases Details</a>
-	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
-	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navb">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item">
-	      </li>
-	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	    <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
-	      <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case Param</button> -->
-	    </form>
-	  </div>
-	</nav>
+	<jsp:include page="navInclude.jsp"/>
+	<div class="page-header">
+	  <h1>Test Case Details</h1>
+	  <hr>
+	</div>
 	<div class="panel-body">
-	    <form>
+	    <form id="myForm">
 		<div class="col-md-12 col-sm-12">
 			<div class="row">
 			<div class="form-group col-md-4 col-sm-8">
@@ -141,7 +127,7 @@ $(document).ready(function() {
 	            <%} %>
 	            </label>
 	        </div>
-	        <input type="hidden" id="testCaseId" value="<%=tc.getTestCaseID()%>">
+	        <input type="hidden" id="testCaseId" name="testCaseID" value="<%=tc.getTestCaseID()%>">
 	        </div>
 		</div>
 	</form>
@@ -152,7 +138,7 @@ $(document).ready(function() {
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 	<div class="card-body">
-	<span style="float:right"><button id="but_add" class="btn btn-danger">Add Parameter</button></span>
+	<span style="float:right"><button id="but_add" class="btn btn-success">Add Parameter</button></span>
 	<br><br>
         <!-- <button class="btn btn-primary" id="submit_data">Submit</button> -->
    <table class="table table-responsive-md table-sm table-bordered" id="makeEditable">

@@ -9,31 +9,31 @@ Bootstable
   var params = null;  		//Parameters
   var colsEdi =null;
   var newColHtml = '<div class="btn-group pull-right">'+
-'<button id="bEdit" type="button" class="btn btn-sm btn-default"  onclick="rowEdit(this);">' +
-'<i class="fas fa-pencil-alt"></i>'+
+'<button id="bEdit" type="button" class="btn btn-sm btn-default"  onclick="rowEdit(this);" style="color :	#563d7c !important;">' +
+'<i class="fas fa-edit"></i>'+
 '</button>'+
-'<button id="bElim" type="button" class="btn btn-sm btn-default"  onclick="rowElim(this);">' +
+'<button id="bElim" type="button" class="btn btn-sm btn-default"  onclick="rowElim(this);" style="color :	#dc3545 !important;">' +
 '<i class="fas fa-trash" aria-hidden="true"></i>'+
 '</button>'+
-'<button id="bAcep" type="button" class="btn btn-sm btn-default"  style="display:none;" onclick="rowAcep(this);">' + 
+'<button id="bAcep" type="button" class="btn btn-sm btn-default"  style="display:none;" onclick="rowAcep(this);" style="color :	#563d7c !important;">' + 
 '<i class="fas fa-check"></i>'+
 '</button>'+
-'<button id="bCanc" type="button" class="btn btn-sm btn-default" style="display:none;"  onclick="rowCancel(this);">' + 
+'<button id="bCanc" type="button" class="btn btn-sm btn-default" style="display:none;"  onclick="rowCancel(this);" style="color :	#563d7c !important;">' + 
 '<i class="fas fa-times" aria-hidden="true"></i>'+
 '</button>'+
     '</div>';
 
      var saveColHtml = '<div class="btn-group pull-right">'+
-'<button id="bEdit" type="button" class="btn btn-sm btn-default" style="display:none;" onclick="rowEdit(this);">' +
-'<i class="fas fa-pencil-alt"></i>'+
+'<button id="bEdit" type="button" class="btn btn-sm btn-default" style="display:none;" onclick="rowEdit(this);" style="color :	#563d7c !important;">' +
+'<i class="fas fa-edit"></i>'+
 '</button>'+
-'<button id="bElim" type="button" class="btn btn-sm btn-default" style="display:none;" onclick="rowElim(this);">' +
+'<button id="bElim" type="button" class="btn btn-sm btn-default" style="display:none;" onclick="rowElim(this);" style="color :	#dc3545 !important;">' +
 '<i class="fas fa-trash" aria-hidden="true"></i>'+
 '</button>'+
-'<button id="bAcep" type="button" class="btn btn-sm btn-default"   onclick="rowAcep(this);">' + 
+'<button id="bAcep" type="button" class="btn btn-sm btn-default"   onclick="rowAcep(this);" style="color :	#563d7c !important;">' + 
 '<i class="fas fa-check"></i>'+
 '</button>'+
-'<button id="bCanc" type="button" class="btn btn-sm btn-default"  onclick="rowCancel(this);">' + 
+'<button id="bCanc" type="button" class="btn btn-sm btn-default"  onclick="rowCancel(this);" style="color :	#563d7c !important;">' + 
 '<i class="fas fa-times" aria-hidden="true"></i>'+
 '</button>'+
     '</div>';
@@ -152,6 +152,9 @@ function rowAcep(but) {
 			//alert('Data saved Successfully !!!');
 			sessionStorage.reloadAfterPageLoad = response;
 			location.reload();
+			$("#myForm").val($('input[name="testCaseID"]').val(testCaseId));
+			document.getElementById('myForm').action = "editTestCase";
+			document.getElementById('myForm').submit();
 		}
 	});
 }

@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Test Scenarios</title>
+<title>Scenarios</title>
 </head>
 <body>
 <script type="text/javascript">
@@ -46,7 +46,7 @@ $(document).ready(function() {
 	}
 	
     $('#example').DataTable({
-    	rowReorder: true
+    	//rowReorder: true
     });
 });
 function deleteScenario(scenarioId) {  //Elimina la fila actual
@@ -64,9 +64,23 @@ function deleteScenario(scenarioId) {  //Elimina la fila actual
     }
 }
 
+function execute() {
+	var arryCheck = $.find('[id^="checkId"]');
+	var arryLength = arryCheck.length;
+	var obj = {};
+	for (var i=0; i<arryLength; i++) {
+		var checkId = $(arryCheck[i]).attr('id');
+		var checkVal = 0;
+		if (document.getElementById(checkId).checked) {
+			checkVal = 1;
+			obj[checkId] = true;
+		}
+
+	}
+	
+	alert(JSON.stringify(obj));
+}
 </script>
-
-
 <!-- <p>Vue App</p>
 <a href="./MyServlet">Please click here</a>
 <img src="D:\VUE-RGB_Color_Dark.png" class="img-rounded" alt="Cinque Terre">
@@ -75,42 +89,28 @@ function deleteScenario(scenarioId) {  //Elimina la fila actual
 	List<TestScenario> testScenario = (List<TestScenario>) session.getAttribute("testScenarioList");
 %>
 <div class="panel panel-primary" style="margin:20px;">
-	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
-  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
-	  <a class="navbar-brand" href="#">Test Scenarios</a>
-	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
-	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navb">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item">
-	      </li>
-	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	    <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
-	      <a href="./addScenario.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Add Scenario</button></a>
-	    </form>
-	  </div>
-	</nav>
-	<br>
+  	<jsp:include page="navInclude.jsp"/>
 	<div class="alert alert-success alert-dismissible" id="success" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 	<div class="alert alert-danger alert-dismissible" id="failure" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
+	<div class="page-header">
+	  <h1>Scenarios</h1>
+	  <hr>
+	</div>
 	<table id="example" class="table table-condensed">
 		<thead>
 			<tr>
+			<th width="5%"></th>
 			<th width="10%">Module</th>
 			<th width="5%">Sub Module</th>
 			<th width="5%">Scenario Code</th>
-			<th width="20%">Scenario Name</th>
+			<th width="25%">Scenario Name</th>
 			<!-- <th width="20%">Description</th> -->
-			<th width="10%">Is Active?</th>
-			<th width="10%">Action</th>
+			<th width="5%">Active?</th>
+			<th width="5%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -120,6 +120,7 @@ function deleteScenario(scenarioId) {  //Elimina la fila actual
 					boolean status = ts.isActive();
 				%>
 				<tr>
+				<td><input type="checkbox" class="form-control" style="width: 19px !important;" id="checkId<%=ts.getTestScenarioID()%>"></td>
 				<td><%=ts.getModuleName() %></td>
 				<td><%=ts.getSubModuleName() %></td>
 				<td><%=ts.getScenarioCode()%></td>
@@ -133,8 +134,8 @@ function deleteScenario(scenarioId) {  //Elimina la fila actual
 					<%} %>
 				</td>
 				<td>
-				<a href="./editScenario?testScenarioID=<%=ts.getTestScenarioID()%>"><button type="button" class="btn btn-info" >Edit</button></a>
-				<button type="button" class="btn btn-danger" onclick="deleteScenario(<%=ts.getTestScenarioID()%>);">Delete</button>
+				<a class="purpule" href="./editScenario?testScenarioID=<%=ts.getTestScenarioID()%>"><i class="fa fa-edit" style="font-size:24px"></i></a>&nbsp;
+				<a class="red" onclick="deleteScenario(<%=ts.getTestScenarioID()%>);"><i class="fa fa-trash" style="font-size:24px"></i></a>
 				</tr>
 				<%
 				}

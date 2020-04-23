@@ -70,42 +70,26 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 	List<TestCase> testCase = (List<TestCase>) session.getAttribute("testCaseList");
 %>
 <div class="panel panel-primary" style="margin:20px;">
-<%-- <font color="black"><strong><i><label style="padding-left: 1230px !important;"><i class="fa fa-user" style="font-size:24px"></i>&nbsp;<%=(String)session.getAttribute("guestName")%></label></i></strong></font> --%>
-	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
-  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
-	  <a class="navbar-brand" href="#">Test Cases</a>
-	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
-	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navb">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item">
-	      </li>
-	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	    <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
-	      <a href="./addTestCase.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case</button></a>
-	    </form>
-	  </div>
-	</nav>
-	<br>
+	<jsp:include page="navInclude.jsp"/>
 	<div class="alert alert-success alert-dismissible" id="success" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 	<div class="alert alert-danger alert-dismissible" id="failure" style="display: none;">
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
+	<div class="page-header">
+	  <h1>Test Cases</h1>
+	  <hr>
+	</div>
 	<table id="example" class="table table-condensed">
 		<thead>
 			<tr>
 			<th width="10%">Module Name</th>
 			<th width="30%">Test Case Name</th>
-			<th width="25%">Procedure Name</th>
+			<th width="30%">Procedure Name</th>
 			<th width="5%">Active</th>
 			<th width="15%">Entity Type</th>
-			<th width="15%">Action</th>
+			<th width="5%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -127,8 +111,9 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 				</td>
 				<td><%=tc.getEntityTypeID() %></td>
 				<td>
-				<a href="./editTestCase?testCaseID=<%=tc.getTestCaseID()%>"><button type="button" class="btn btn-info" >Edit</button></a>
-				<button type="button" class="btn btn-danger" onclick="deleteTestCase(<%=tc.getTestCaseID()%>);">Delete</button>
+				<a class="purpule" href="./editTestCase?testCaseID=<%=tc.getTestCaseID()%>"><i class="fa fa-edit" style="font-size:24px"></i></a>&nbsp;
+				<a class="red" onclick="deleteTestCase(<%=tc.getTestCaseID()%>);"><i class="fa fa-trash" style="font-size:24px"></i></a>
+				
 				</tr>
 				<%
 				}

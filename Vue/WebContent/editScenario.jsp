@@ -31,7 +31,7 @@
 	<!-- <script src="js_plugin/bootstable.js" ></script> -->
 	<script src="js_plugin/confirm.js" ></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Edit Scenario</title>
+<title>Scenario Details</title>
 </head>
 <body>
 <style>
@@ -86,7 +86,7 @@ $(document).ready(function() {
 } );
 
 function mapTestCase() {
-	var testCaseIds = $('#testCaseIds').val().toString();
+	var testCaseIds = ($('#testCaseIds').val() != undefined && $('#testCaseIds').val() != null) ? $('#testCaseIds').val().toString() : '';
 	var testScenarioId = $('#testScenarioID').val().toString();
 	var groupId = $('#groupId').val();
 	if (testCaseIds == undefined || testCaseIds == null || testCaseIds == '') {
@@ -106,7 +106,9 @@ function mapTestCase() {
 			//console.log("response >>>"+response);
 			//alert('Data saved Successfully !!!');
 			sessionStorage.reloadAfterPageLoad = response;
-			location.reload();
+			$("#form1").val($('input[name="testScenarioID"]').val(testScenarioId));
+			document.getElementById('form1').action = "./editScenario?testScenarioID="+testScenarioId;
+			document.getElementById('form1').submit();
 		}
 	});
 }
@@ -224,27 +226,13 @@ $(document).ready(function() {
 	List<TestScenarioMapping> tcp = tc.getMapping();
 %>
 <div class="panel panel-primary" style="margin:20px;">
-	<a href="javascript:history.back()" style="padding-left: 1232px !important;"><button type="button" class="btn btn-info">Back</button></a>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
-	  <a class="navbar-brand" href="#">Scenario Details</a>
-	  <h4><font color="white"><a style="padding-left: 340px;">Hi <%=(String)session.getAttribute("guestName")%> <i class="fa fa-user" style="font-size:24px"></i></a></font></h4>
-	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navb">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item">
-	      </li>
-	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <iframe src="http://free.timeanddate.com/clock/i78ye57b/n505/fn6/pct/ftbi/bo2/ts1/ta1" frameborder="0" width="124" height="21" allowTransparency="true"></iframe>&nbsp;&nbsp;
-	      <a href="./index.jsp"><button class="btn btn-success my-2 my-sm-0" type="button">Home</button></a>&nbsp;
-	      <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Add Test Case Param</button> -->
-	    </form>
-	  </div>
-	</nav>
+	<jsp:include page="navInclude.jsp"/>
+	<div class="page-header">
+	  <h1>Scenario Details</h1>
+	  <hr>
+	</div>
 	<div class="panel-body">
-	    <form>
+	    <form id="form1">
 		<div class="col-md-12 col-sm-12">
 			<div class="row">
 			<div class="form-group col-md-4 col-sm-8">
@@ -283,7 +271,7 @@ $(document).ready(function() {
 	            <%} %>
 	            </label>
 	        </div> --%>
-	        <input type="hidden" id="testScenarioID" value="<%=tc.getTestScenarioID()%>">
+	        <input type="hidden" name="testScenarioID" id="testScenarioID" value="<%=tc.getTestScenarioID()%>">
 	        </div>
 	        <div class="row">
 	        	<div class="form-group col-md-4 col-sm-8">
@@ -294,7 +282,7 @@ $(document).ready(function() {
 	          
 		</div>
 	</form>
-	<form class="">
+	<form class="" id="form2">
 		<div class="page-header">
 			<h4>Map Test Cases</h4>    
 	  	</div>
@@ -320,7 +308,8 @@ $(document).ready(function() {
 	            </div>
            <div class="form-group col-md-2 col-sm-4">
 	            <label for="name"></label>
-	            <input type="button" onclick="mapTestCase();" class="form-control input-sm btn btn-info" value="Map Test Case" style="margin-top: 7px !important;" >
+	            <input type="button" onclick="mapTestCase();" class="form-control input-sm btn btn-info purpule" value="Map Test Case" style="margin-top: 7px !important;background : #563d7c !important;" >
+	            <!-- <button onclick="mapTestCase();" class="form-control input-sm btn btn-info purpule" style="margin-top: 7px !important;" >Map Test Case</button> -->
 	            </div>
 		</div>
 		</div>
@@ -340,10 +329,10 @@ $(document).ready(function() {
 		<th width="10%">Group</th>
 		<th width="5%">Seq.</th>
 		<th width="20%">Test Case</th>
-		<th width="20%">Override Params</th>
-		<th width="20%">Override Param Values</th>
+		<th width="25%">Override Params</th>
+		<th width="30%">Override Param Values</th>
 		<th width="10%">Execution Order</th>
-		<th width="20%">Actions</th>
+		<th width="5%">Actions</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -388,17 +377,17 @@ $(document).ready(function() {
               	<% } %>
 				<td><%=mapping.getExecutionOrder()%></td>
 				<td>
-					<button type="button" class="btn btn-info" onclick="callModalEditPopup(<%=mapping.getTestScenarioMappingID()%>);">Edit</button>
-					<button type="button" class="btn btn-danger" onclick="deleteMapping(<%=mapping.getTestScenarioMappingID()%>);">Delete</button>
+					<a class="purpule" onclick="callModalEditPopup(<%=mapping.getTestScenarioMappingID()%>);"><i class="fa fa-edit" style="font-size:24px"></i></a>&nbsp;
+					<a class="red" onclick="deleteMapping(<%=mapping.getTestScenarioMappingID()%>);"><i class="fa fa-trash" style="font-size:24px"></i></a>
 				</td>
 				<%-- <td><a href="./editTestCaseParam?testCaseParamID=<%=params.getTestCaseParamID()%>"><button type="button" class="btn btn-info" >Edit</button></a></tr> --%>
 				<%
 				}
 			} else {
 			%>
-			<tr >
+	<!-- 		<tr >
 				<td colspan="7">No records to display.</td>
-			</tr>
+			</tr> -->
 			<%}%>		</tbody>
 	</table>
 

@@ -1,3 +1,4 @@
+<%@page import="com.util.Util"%>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('ul.navbar-nav li.dropdown').hover(function() {
@@ -57,11 +58,11 @@ button.purpule {
         
       </li>
       <li class="nav-item dropdown">
-         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <a class="nav-link" href="./reports.jsp" id="navbarDropdown">
           Reports
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Scenario Results</a>
+          <a class="dropdown-item" href="<%=Util.getReportUrl("DepartmentID=2", "Matrix Report Data", "CSV") %>">Scenario Results</a>
           <a class="dropdown-item" href="#">Test Case Results</a>
         </div>
         

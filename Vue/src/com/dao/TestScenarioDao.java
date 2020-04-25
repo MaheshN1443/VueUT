@@ -128,6 +128,33 @@ public class TestScenarioDao {
 	}	
 	
 	
+	public int executeTestScenario(String scenarioIDs,String userName) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int statusOutput=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+            CallableStatement p = con.prepareCall("{call USP_UT_CreateExecScenarioJob(?,?,?)}");
+            // create or replace stored procedure
+            p.setString(1, scenarioIDs);
+            p.setString(2, userName);
+            
+            p.registerOutParameter(3, Types.INTEGER);
+            p.executeUpdate();
+            statusOutput = p.getInt(3);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return statusOutput;
+	}		
+	
+	
 	public int saveTestScenario(TestScenario ts) throws SQLException, ClassNotFoundException
 	{
 

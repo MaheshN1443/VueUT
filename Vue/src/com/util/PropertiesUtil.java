@@ -13,6 +13,8 @@ public class PropertiesUtil {
 	public static String dbUsername;
 	public static String dbPassword;
 	public static String mssqlDriver;
+	public static String reportsServerUrl;
+	public static String reportsFolderPath;
 	
 	static {
 		try {
@@ -23,6 +25,8 @@ public class PropertiesUtil {
 			dbUsername = prop.getProperty("db.username");
 			dbPassword = prop.getProperty("db.password");
 			mssqlDriver = prop.getProperty("mssql.driver");
+			reportsServerUrl = prop.getProperty("reports.server.url");
+			reportsFolderPath = prop.getProperty("reports.folder.path");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

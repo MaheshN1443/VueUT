@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.dao.TestCaseDao;
 import com.dto.TestCase;
+import com.util.Util;
 
 /**
  * Servlet implementation class AddTestCase
@@ -34,7 +35,13 @@ public class AddTestCase extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
 		HttpSession session = request.getSession();
+		String guestName = (String) session.getAttribute("guestName");
+		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}
 		
 		String testCaseName = request.getParameter("testCaseName");
 		String moduleName = request.getParameter("moduleName");

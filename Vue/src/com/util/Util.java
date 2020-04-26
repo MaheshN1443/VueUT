@@ -1,7 +1,12 @@
 package com.util;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.dto.TestCase;
 
@@ -32,5 +37,20 @@ public class Util {
 			url = url+"&"+urlQueryParams;
 		}
 		return url;
+	}
+	
+	public static void callSessionExpiredPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rs = request.getRequestDispatcher("sessionExpired.jsp");
+		rs.forward(request, response);
+	}
+	
+	public static int convertStrToInt(String data) {
+		Integer temp = 0;
+		try {
+			temp = Integer.parseInt(data);
+		} catch (Exception e) {
+			temp = 0;
+		}
+		return temp.intValue();
 	}
 }

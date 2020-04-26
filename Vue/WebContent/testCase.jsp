@@ -1,3 +1,4 @@
+<%@page import="com.util.Util"%>
 <%@page import="com.dto.TestCase"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
@@ -88,8 +89,8 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 			<th width="30%">Test Case Name</th>
 			<th width="30%">Procedure Name</th>
 			<th width="5%">Active</th>
-			<th width="15%">Entity Type</th>
-			<th width="5%">Action</th>
+			<th width="10">Entity Type</th>
+			<th width="10%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -113,7 +114,9 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 				<td>
 				<a class="purpule" href="./editTestCase?testCaseID=<%=tc.getTestCaseID()%>"><i class="fa fa-edit" style="font-size:24px"></i></a>&nbsp;
 				<a class="red" onclick="deleteTestCase(<%=tc.getTestCaseID()%>);"><i class="fa fa-trash" style="font-size:24px"></i></a>
-				
+				<% String whereQuery = "TestCaseId="+tc.getTestCaseID();%>
+				<a href="<%=Util.getReportUrl(whereQuery, "Test Case Results", "PDF")%>" title="Download as PDF"><img src="https://img.icons8.com/color/23/000000/pdf.png" style="vertical-align: -4px;"/></a>
+			
 				</tr>
 				<%
 				}

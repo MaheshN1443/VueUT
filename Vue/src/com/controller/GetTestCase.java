@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.dao.TestCaseDao;
 import com.dto.TestCase;
 import com.dto.TestCaseParam;
+import com.util.Util;
 
 /**
  * Servlet implementation class GetTestCase
@@ -37,14 +38,15 @@ public class GetTestCase extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String guestName = request.getParameter("guestName");
 		
 		TestCaseDao testCase = new TestCaseDao();
 		
 		HttpSession session = request.getSession();
-		/*session.removeAttribute("guestName");
-		session.setAttribute("guestName", guestName);*/
+		String guestName = (String) session.getAttribute("guestName");
 		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}		
 		try {
 			List<TestCase> testCaseList  = testCase.getTestCase(0);
 			session.setAttribute("testCaseList", testCaseList);

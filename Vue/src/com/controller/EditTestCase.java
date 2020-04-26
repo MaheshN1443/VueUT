@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.dao.TestCaseDao;
 import com.dto.TestCase;
+import com.util.Util;
 
 /**
  * Servlet implementation class EditTestCase
@@ -36,6 +37,12 @@ public class EditTestCase extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
+		String guestName = (String) session.getAttribute("guestName");
+		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}
+		
 		String id = request.getParameter("testCaseID");
 		Integer testCaseID = Integer.parseInt(id);
 

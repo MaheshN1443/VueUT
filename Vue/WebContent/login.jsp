@@ -28,6 +28,9 @@ img {
   border-radius: 50%;
 }
 </style>
+<%
+	session.removeAttribute("guestName");
+%>
 <body>
 	
 	<div class="limiter">

@@ -87,6 +87,45 @@ public class TestCaseDao {
 	}	
 
 	
+	public List<TestCase> getTestCaseList() {
+		
+		List<TestCase> list = new ArrayList<TestCase>();
+        Statement stmt = null;
+        ResultSet resObj = null;
+        List<Integer> listId = new ArrayList<>();
+        List<TestCase> testCases = new ArrayList<>();
+        		
+        try {
+        	
+        	Connection con=VueConnection.getCon();
+        	stmt = con.createStatement();
+            resObj = null;
+            StringBuffer q = new StringBuffer("");
+            q.append("SELECT VUETESTCASESID testCaseId,TESTCASENAME testCaseName FROM VUETESTCASES (NOLOCK)");
+            
+            q.append(" order by testCaseName desc");
+            resObj = stmt.executeQuery(q.toString());
+            while (resObj.next()) {
+
+            	int testId = resObj.getInt(1);
+            	String testCaseName = resObj.getString(2);
+            	
+            	TestCase tCase = new TestCase();
+            		
+        		tCase.setTestCaseID(testId);
+        		tCase.setTestCaseName(testCaseName);
+        		
+        		testCases.add(tCase);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return testCases;
+	}	
+	
+	
+	
 	public int deleteTestCase(int testCaseId) throws SQLException, ClassNotFoundException
 	{
 

@@ -40,10 +40,10 @@ $(document).ready(function() {
 			
 			if (status == 'success') {
 				$('#success').css('display','').html(message);
-				$('#success').delay(1000).fadeOut('slow');
+				$('#success').delay(2000).fadeOut('slow');
 			} else {
 				$('#failure').css('display','').html(message);
-				$('#failure').delay(1000).fadeOut('slow');
+				$('#failure').delay(2000).fadeOut('slow');
 			}
 			
 		}	
@@ -119,6 +119,7 @@ function saveDupScenario() {
 	
 	var modalScenarioId = $('#modalScenarioId').val();
 	var scenarioName = $('#scenarioName').val();
+	var scenarioCode = $('#scenarioCode').val();
 	var description = $('#description').val();
 	
 	if (scenarioName == undefined || scenarioName == null || scenarioName == '') {
@@ -139,6 +140,7 @@ function saveDupScenario() {
 		data : {
 			'scenarioName' : scenarioName,
 			'description' : description
+			,'scenarioCode' : scenarioCode
 		},
 		success : function(response) {
 			//console.log("response >>>"+response);
@@ -221,10 +223,10 @@ function execute() {
 			<th width="10%">Module</th>
 			<th width="5%">Sub Module</th>
 			<th width="5%">Scenario Code</th>
-			<th width="25%">Scenario Name</th>
+			<th width="20%">Scenario Name</th>
 			<!-- <th width="20%">Description</th> -->
 			<th width="5%">Active?</th>
-			<th width="5%">Action</th>
+			<th width="10%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -250,8 +252,8 @@ function execute() {
 				<td>
 				<a class="purpule" href="./editScenario?testScenarioID=<%=ts.getTestScenarioID()%>"><i class="fa fa-edit" style="font-size:24px"></i></a>&nbsp;
 				<a class="red" onclick="deleteScenario(<%=ts.getTestScenarioID()%>);"><i class="fa fa-trash" style="font-size:24px"></i></a>&nbsp;
-				<% String whereQuery = "DepartmentID="+ts.getTestScenarioID();%>
-				<a href="<%=Util.getReportUrl(whereQuery, "Matrix Report Data", "PDF")%>"><i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size:20px"></i></a>
+				<% String whereQuery = "ScenarioId="+ts.getTestScenarioID();%>
+				<a href="<%=Util.getReportUrl(whereQuery, "Scenario Results", "PDF")%>" title="Download as PDF"><img src="https://img.icons8.com/color/23/000000/pdf.png" style="vertical-align: -4px;"/></a>
 				</tr>
 				<%
 				}
@@ -283,6 +285,13 @@ function execute() {
 	            <input type="text" class="form-control input-sm" name="scenarioName" id="scenarioName" value="">
 				</div>
 			</div>
+			<div class="row">
+				<div class="form-group col-md-12 col-sm-12">
+				<label for="name">Scenario Code</label>
+	            <input type="text" class="form-control input-sm" name="scenarioCode" id="scenarioCode" value="">
+				</div>
+			</div>
+
 		    <div class="row">
 	        <div class="form-group col-md-12 col-sm-12">
 	            <label for="name" >Description</label>

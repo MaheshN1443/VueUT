@@ -12,5 +12,17 @@
 	<classpathentry exported="true" kind="lib" path="D:/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="D:/jackson-dataformat-xml-2.11.0.rc1.jar"/>
 	<classpathentry exported="true" kind="lib" path="D:/Pentaho/report-designer/lib/jdbc/mssql-jdbc-8.2.2.jre8.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/lib/poi-4.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/lib/poi-ooxml-4.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/lib/poi-ooxml-schemas-4.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/lib/guava-23.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/lib/commons-collections4-4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/lib/xmlbeans-3.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-codec-1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-collections4-4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-compress-1.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-exec-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/gson-2.8.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -9,8 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.dao.TestCaseMappingDao;
+import com.util.Util;
 
 /**
  * Servlet implementation class DeleteMapping
@@ -31,6 +33,14 @@ public class DeleteMapping extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		String guestName = (String) session.getAttribute("guestName");
+		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}
+		
 		String mappingid = request.getParameter("mappingId");
 		
 		Integer mapid = Integer.parseInt(mappingid);

@@ -1,6 +1,7 @@
 package com.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,7 +18,7 @@ public class TestScenario {
 	private boolean isActive;
 	private boolean isMultipleStepsReq;
 	
-	private ArrayList<TestScenarioMapping>mapping;
+	private List<TestScenarioMapping> mapping;
 
 	public TestScenario() {
 		
@@ -93,8 +94,9 @@ public class TestScenario {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	@XmlElement
-	public ArrayList<TestScenarioMapping> getMapping() {
+	
+	@XmlElement()
+	public List<TestScenarioMapping> getMapping() {
 		return mapping;
 	}
 
@@ -102,6 +104,7 @@ public class TestScenario {
 		this.mapping = mapping;
 	}
 
+	@XmlElement()
 	public boolean isMultipleStepsReq() {
 		return isMultipleStepsReq;
 	}	
@@ -111,7 +114,13 @@ public class TestScenario {
 		this.isMultipleStepsReq = isMultipleStepsReq;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "TestScenario [testScenarioID=" + testScenarioID + ", moduleName=" + moduleName + ", subModuleName="
+				+ subModuleName + ", scenarioName=" + scenarioName + ", scenarioCode=" + scenarioCode + ", description="
+				+ description + ", isActive=" + isActive + ", isMultipleStepsReq=" + isMultipleStepsReq + ", mapping="
+				+ mapping + "]";
+	}
+
 	
 }

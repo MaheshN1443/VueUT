@@ -153,6 +153,73 @@ public class TestScenarioDao {
 		}
 		return statusOutput;
 	}		
+
+	
+	public int dupScenario(String scenarioName,String scenarioCode,String desc,int dupScenarioID,String userName) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int statusOutput=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+            CallableStatement p = con.prepareCall("{call pICs_DuplicateScenario(?,?,?,?,?,?)}");
+            // create or replace stored procedure
+            p.setString(1, scenarioCode);
+            p.setString(2, scenarioName);
+            p.setString(3, desc);
+            p.setInt(4, dupScenarioID);
+            p.setString(5, userName);
+            
+            p.registerOutParameter(6, Types.INTEGER);
+            p.executeUpdate();
+            statusOutput = p.getInt(6);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return statusOutput;
+	}		
+
+	
+	public List<TestScenario> getScenarioList() throws SQLException, ClassNotFoundException {
+		List<TestScenario> list = new ArrayList<TestScenario>();
+
+		Connection con=VueConnection.getCon();
+        Statement stmt = null;
+        ResultSet resObj = null;
+        List<Integer> listId = new ArrayList<>();
+        List<TestScenario> testScenario = new ArrayList<>();
+        		
+        try {
+            stmt = con.createStatement();
+            resObj = null;
+            StringBuffer q = new StringBuffer("");
+            q.append("SELECT VUETESTSCENARIOID testScenarioId,SCENARIONAME scenarioName FROM VUETESTSCENARIO (NOLOCK)");
+            
+            q.append(" order by scenarioName desc");
+            resObj = stmt.executeQuery(q.toString());
+            while (resObj.next()) {
+
+            	int testId = resObj.getInt(1);
+            	String scenarioName = resObj.getString(2);
+            	
+            	TestScenario tCase = new TestScenario();
+            		
+        		tCase.setTestScenarioID(testId);;
+        		tCase.setScenarioName(scenarioName);
+        		
+        		testScenario.add(tCase);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return testScenario;
+	}	
 	
 	
 	public int saveTestScenario(TestScenario ts) throws SQLException, ClassNotFoundException

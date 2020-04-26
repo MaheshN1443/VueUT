@@ -16,6 +16,7 @@ import com.dao.TestCaseDao;
 import com.dao.TestScenarioDao;
 import com.dto.TestCase;
 import com.dto.TestScenario;
+import com.util.Util;
 
 /**
  * Servlet implementation class GetScenario
@@ -38,12 +39,14 @@ public class GetScenario extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		TestScenarioDao testScenario = new TestScenarioDao();
-		String guestName = request.getParameter("guestName");
 		
 		HttpSession session = request.getSession();
-		/*session.removeAttribute("guestName");
-		session.setAttribute("guestName", guestName);
-		*/
+		String guestName = (String) session.getAttribute("guestName");
+		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}
+		
 		try {
 			List<TestScenario> testScenarioList  = testScenario.getTestScenario(0);
 			session.setAttribute("testScenarioList", testScenarioList);
@@ -54,9 +57,6 @@ public class GetScenario extends HttpServlet {
 
 		RequestDispatcher rd = request.getRequestDispatcher("scenario.jsp");
 		rd.forward(request, response);
-
-		
-
 		
 	}
 

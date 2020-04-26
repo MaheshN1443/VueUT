@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.dao.TestScenarioDao;
 
 /**
  * Servlet implementation class DupScenario
@@ -31,7 +34,9 @@ public class DupScenario extends HttpServlet {
 		
 		String modalScenarioId = request.getParameter("modalScenarioId");
 		String scenarioName = request.getParameter("scenarioName");
+		String scenarioCode = request.getParameter("scenarioCode");
 		String description = request.getParameter("description");
+		HttpSession session = request.getSession();
 		
 		Integer scenarioId = Integer.parseInt(modalScenarioId);
 		
@@ -39,16 +44,35 @@ public class DupScenario extends HttpServlet {
 						+ "scenarioName :"+scenarioName+"\n"
 						+ "description :"+description);
 		
-		int status = 1;
+		String userName = (String) session.getAttribute("guestName");
+		TestScenarioDao d = new TestScenarioDao();
+		
+		int status = 0;
+		try {
+			status = d.dupScenario(scenarioCode,scenarioName, description, scenarioId, userName);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error is :"+e.getMessage());
+		} 
+		
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
-		if (status > 0) {
-			pw.print("success@Scenario duplicated successfully !!!");
-		} else {
-			pw.print("failure@Failed to duplicate scenario.");
+		
+		if (status == 1) {
+			pw.print("success@Scenario duplicated successfully!!!");
+			pw.flush();
+			pw.close();
+		} else if (status == 2) {
+			pw.print("failure@Scenario already exists with the scenario code/name.");
+			pw.flush();
+			pw.close();			
 		}
-		pw.flush();
-		pw.close();
+		else {
+			pw.print("failure@Failed to duplicate scenario.");
+			pw.flush();
+			pw.close();
+		}
 	}
 
 	/**

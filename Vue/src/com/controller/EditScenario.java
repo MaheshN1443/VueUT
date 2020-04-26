@@ -15,6 +15,7 @@ import com.dao.TestCaseDao;
 import com.dao.TestScenarioDao;
 import com.dto.TestCase;
 import com.dto.TestScenario;
+import com.util.Util;
 
 /**
  * Servlet implementation class EditScenario
@@ -37,6 +38,12 @@ public class EditScenario extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
+		String guestName = (String) session.getAttribute("guestName");
+		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}	
+		
 		String id = request.getParameter("testScenarioID");
 		Integer testScenarioID = Integer.parseInt(id);
 		System.out.println("testScenarioID :"+testScenarioID);

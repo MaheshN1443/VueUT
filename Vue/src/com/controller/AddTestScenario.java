@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.dao.TestScenarioDao;
 import com.dto.TestScenario;
+import com.util.Util;
 
 /**
  * Servlet implementation class AddTestScenario
@@ -36,6 +37,11 @@ public class AddTestScenario extends HttpServlet {
 
 
 		HttpSession session = request.getSession();
+		String guestName = (String) session.getAttribute("guestName");
+		
+		if (guestName == null || guestName.trim().equals("")) {
+			Util.callSessionExpiredPage(request, response);
+		}
 		
 		String moduleName = request.getParameter("moduleName");
 		String subModuleName = request.getParameter("subModule");

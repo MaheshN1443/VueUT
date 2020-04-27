@@ -62,8 +62,8 @@ button.purpule {
           Reports
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<%=Util.getReportUrl("", "Scenario History", "PDF") %>">Scenario History</a>
-          <a class="dropdown-item" href="<%=Util.getReportUrl("", "Test Case History", "PDF") %>">Test Case History</a>
+          <a class="dropdown-item" href="<%=Util.getReportUrl("", "Scenario History", "pdf") %>">Scenario History</a>
+          <a class="dropdown-item" href="<%=Util.getReportUrl("", "Test Case History", "pdf") %>">Test Case History</a>
         </div>
         
       </li>

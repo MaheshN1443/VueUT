@@ -2,6 +2,7 @@ package com.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import com.dao.TestCaseDao;
+import com.dao.TestScenarioDao;
 import com.dto.TestCase;
 import com.dto.TestScenario;
 import com.google.gson.Gson;
@@ -40,6 +42,8 @@ public class UploadServlet extends HttpServlet {
 		
     	HttpSession session = request.getSession();
 		String guestName = (String) session.getAttribute("guestName");
+		
+		int status = 0;
 		
 		if (guestName == null || guestName.trim().equals("")) {
 			Util.callSessionExpiredPage(request, response);
@@ -73,15 +77,26 @@ public class UploadServlet extends HttpServlet {
         	String ext = str[1];
         	if (ext != null && ext.trim().equalsIgnoreCase("xlsx")) {
 
+        		TestScenarioDao scenarioDao = new TestScenarioDao();
                 TestCaseDao testCaseDao = new TestCaseDao();
                 List<TestCase> testCases = testCaseDao.getTestCaseList();
+                List<TestScenario> testScenarios = scenarioDao.getScenarioList();
                 
-                Object[] obj = ReadExcel.readTestScenariosData(filePath, testCases);
+                Object[] obj = ReadExcel.readTestScenariosData(filePath, testCases, testScenarios);
                 List<TestScenario> scenarios = (List<TestScenario>) obj[0];
                 String errorMessage = (String) obj[1];
                 
                 Gson gson = new Gson();
                 String responseStr = gson.toJson(scenarios);
+                
+                TestScenarioDao dao = new TestScenarioDao();
+                
+                try {
+					status = dao.loadBulkScenarioData(responseStr, guestName);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 
                 File file = new File(filePath);
                 file.delete();

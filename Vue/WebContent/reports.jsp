@@ -138,7 +138,7 @@ String reportCommonUrl = PropertiesUtil.reportsServerUrl+"?/"+PropertiesUtil.rep
 	            </select>
 	            </div>
 	            <div class="form-group col-md-2 col-sm-4">
-		            <label for="name"><a onclick="generateReport('PDF','scenario');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
+		            <label for="name"><a onclick="generateReport('pdf','scenario');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
 		         </div>
 		         <div class="form-group col-md-2 col-sm-4">
 		            <label for="name"><a onclick="generateReport('EXCEL','scenario');" title="Download as EXCEL"><img src="https://img.icons8.com/color/33/000000/ms-excel.png"/></a></label>
@@ -162,7 +162,7 @@ String reportCommonUrl = PropertiesUtil.reportsServerUrl+"?/"+PropertiesUtil.rep
 	            </select>
 	            </div>
 	            <div class="form-group col-md-2 col-sm-4">
-		            <label for="name"><a onclick="generateReport('PDF','testCase');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
+		            <label for="name"><a onclick="generateReport('pdf','testCase');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
 		         </div>
 		         <div class="form-group col-md-2 col-sm-4">
 		            <label for="name"><a onclick="generateReport('EXCEL','testCase');" title="Download as EXCEL"><img src="https://img.icons8.com/color/33/000000/ms-excel.png"/></a></label>
@@ -180,7 +180,7 @@ String reportCommonUrl = PropertiesUtil.reportsServerUrl+"?/"+PropertiesUtil.rep
 	           		<input type="text" class="form-control" readonly="readonly" value="Scenario History"/>
 	            </div>
 	            <div class="form-group col-md-2 col-sm-4">
-		            <label for="name"><a onclick="generateReport('PDF','scenarioHistory');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
+		            <label for="name"><a onclick="generateReport('pdf','scenarioHistory');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
 		         </div>
 		         <div class="form-group col-md-2 col-sm-4">
 		            <label for="name"><a onclick="generateReport('EXCEL','scenarioHistory');" title="Download as EXCEL"><img src="https://img.icons8.com/color/33/000000/ms-excel.png"/></a></label>
@@ -195,7 +195,7 @@ String reportCommonUrl = PropertiesUtil.reportsServerUrl+"?/"+PropertiesUtil.rep
 	           		<input type="text" class="form-control" readonly="readonly" value="Test Case History"/>
 	            </div>
 	            <div class="form-group col-md-2 col-sm-4">
-		            <label for="name"><a onclick="generateReport('PDF','testCaseHistory');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
+		            <label for="name"><a onclick="generateReport('pdf','testCaseHistory');" title="Download as PDF"><img src="https://img.icons8.com/color/30/000000/pdf.png"/></a></label>
 		         </div>
 		         <div class="form-group col-md-2 col-sm-4">
 		            <label for="name"><a onclick="generateReport('EXCEL','testCaseHistory');" title="Download as EXCEL"><img src="https://img.icons8.com/color/33/000000/ms-excel.png"/></a></label>

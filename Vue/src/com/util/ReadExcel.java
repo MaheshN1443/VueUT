@@ -24,7 +24,8 @@ public class ReadExcel {
 	 * @param testCases
 	 * @return Object[]
 	 */
-	public static Object[] readTestScenariosData(String fileName, List<TestCase> testCases) {
+	public static Object[] readTestScenariosData(String fileName, List<TestCase> testCases, 
+												 List<TestScenario> testScenarios) {
 		
 		Workbook workbook = null;
 		Sheet sheet = null;
@@ -126,14 +127,22 @@ public class ReadExcel {
 					mapping.setOverrideParamName(overrideParams);
 					mapping.setOverrideParamVal(overrideParamValues);
 					
-					if (scenarios != null && !scenarios.isEmpty() &&
+					if (testScenarios != null && !testScenarios.isEmpty() &&
 						scenarioCode != null && !scenarioCode.trim().equals("")) {
-						boolean status = scenarios.stream()
-												  .anyMatch(s -> s.getScenarioCode().trim().equalsIgnoreCase(scenarioCode.trim()));
-						
+						boolean status = testScenarios.stream()
+					  			  					   .anyMatch(s -> s.getScenarioCode().trim().equalsIgnoreCase(scenarioCode.trim()));
 						if (status) {
-							errorMessage = "Duplicate Scenario entry.";
+							errorMessage = "One of the Scenario already existed in the database.";
 							break;	
+						} else {
+							if (scenarios != null && !scenarios.isEmpty()) {
+								status = scenarios.stream()
+										          .anyMatch(s -> s.getScenarioCode().trim().equalsIgnoreCase(scenarioCode.trim()));
+								if (status) {
+									errorMessage = "Duplicate Scenario entry existed in file.";
+									break;
+								}
+							}
 						}
 					}
 					
@@ -155,6 +164,7 @@ public class ReadExcel {
 					}
 
 					scenarioMappings.add(mapping);
+				
 					
 					if (scenarios == null || scenarios.isEmpty()) {
 						errorMessage = "First record having invalid data.";
@@ -174,7 +184,12 @@ public class ReadExcel {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			obj[1] = "Failed to validate the file.";
+			if (errorMessage != null && !errorMessage.trim().equals("")) {
+				obj[1] = errorMessage;
+			} else {
+				obj[1] = "Failed to validate the file.";
+			}
+
 		}
 		return obj;
 	}

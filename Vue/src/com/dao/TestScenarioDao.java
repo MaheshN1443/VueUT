@@ -13,8 +13,6 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import com.dto.TestCase;
-import com.dto.TestCaseParam;
 import com.dto.TestScenario;
 import com.dto.TestScenarioMapping;
 
@@ -155,6 +153,34 @@ public class TestScenarioDao {
 	}		
 
 	
+	public int loadBulkScenarioData(String jsonData,String userName) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int statusOutput=0;
+		int statusReason=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+            CallableStatement p = con.prepareCall("{call USP_UT_LoadScenarioBulkData(?,?,?)}");
+            // create or replace stored procedure
+            p.setString(1, jsonData);
+            p.setString(2, userName);
+            
+            p.registerOutParameter(3, Types.INTEGER);
+            p.executeUpdate();
+            statusOutput = p.getInt(3);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return statusOutput;
+	}		
+	
+	
 	public int dupScenario(String scenarioName,String scenarioCode,String desc,int dupScenarioID,String userName) throws SQLException, ClassNotFoundException
 	{
 
@@ -185,20 +211,20 @@ public class TestScenarioDao {
 	}		
 
 	
-	public List<TestScenario> getScenarioList() throws SQLException, ClassNotFoundException {
+	public List<TestScenario> getScenarioList() {
 		List<TestScenario> list = new ArrayList<TestScenario>();
 
-		Connection con=VueConnection.getCon();
         Statement stmt = null;
         ResultSet resObj = null;
         List<Integer> listId = new ArrayList<>();
         List<TestScenario> testScenario = new ArrayList<>();
         		
         try {
+        	Connection con=VueConnection.getCon();
             stmt = con.createStatement();
             resObj = null;
             StringBuffer q = new StringBuffer("");
-            q.append("SELECT VUETESTSCENARIOID testScenarioId,SCENARIONAME scenarioName FROM VUETESTSCENARIO (NOLOCK)");
+            q.append("SELECT VUETESTSCENARIOID testScenarioId,SCENARIONAME scenarioName,SCENARIOCODE scenarioCode FROM VUETESTSCENARIO (NOLOCK)");
             
             q.append(" order by scenarioName desc");
             resObj = stmt.executeQuery(q.toString());
@@ -206,11 +232,12 @@ public class TestScenarioDao {
 
             	int testId = resObj.getInt(1);
             	String scenarioName = resObj.getString(2);
-            	
+            	String scenarioCode = resObj.getString(3);
             	TestScenario tCase = new TestScenario();
             		
         		tCase.setTestScenarioID(testId);;
         		tCase.setScenarioName(scenarioName);
+        		tCase.setScenarioCode(scenarioCode);
         		
         		testScenario.add(tCase);
             }

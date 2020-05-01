@@ -91,20 +91,25 @@ public class UploadServlet extends HttpServlet {
                 
                 TestScenarioDao dao = new TestScenarioDao();
                 
-                try {
-					status = dao.loadBulkScenarioData(responseStr, guestName);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                
                 File file = new File(filePath);
                 file.delete();
                 
                 if (errorMessage != null && !errorMessage.trim().equals("")) {
                 	request.setAttribute("errorMessage", errorMessage);
                 } else {
-                	request.setAttribute("successMessage", "Data Loaded successfully !!!");
+
+                    try {
+    					status = dao.loadBulkScenarioData(responseStr, guestName);
+    					
+    				} catch (Exception e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+                    if (status > 0) {
+                    	request.setAttribute("successMessage", "Data Loaded successfully !!!");
+                    } else {
+                    	request.setAttribute("errorMessage", "Failure to load data into database.");
+                    }
                 }
                 
                 getServletContext().getRequestDispatcher("/upload.jsp").forward(request, response);

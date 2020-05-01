@@ -191,6 +191,7 @@ function execute() {
 		}
 	});
 }
+
 </script>
 <!-- <p>Vue App</p>
 <a href="./MyServlet">Please click here</a>

@@ -124,6 +124,32 @@ public class TestCaseDao {
 		return testCases;
 	}	
 	
+	public int executeTestCase(String testCaseIDs,String userName) throws SQLException, ClassNotFoundException
+	{
+
+		boolean status = false;
+		Connection con=VueConnection.getCon();
+		int statusOutput=0;
+		StringWriter s = new StringWriter();
+		
+		try {
+			
+            CallableStatement p = con.prepareCall("{call USP_UT_CreateExecScenarioJob(?,?,?,?)}");
+            // create or replace stored procedure
+            p.setString(1, testCaseIDs);
+            p.setString(2, userName);
+            
+            p.registerOutParameter(3, Types.INTEGER);
+            p.setInt(4, 1);
+            p.executeUpdate();
+            statusOutput = p.getInt(3);
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return statusOutput;
+	}		
 	
 	
 	public int deleteTestCase(int testCaseId) throws SQLException, ClassNotFoundException

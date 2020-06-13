@@ -32,7 +32,7 @@ public class Util {
 	
 	public static String getReportUrl(String urlQueryParams, String reportName, String format) {
 		String url = PropertiesUtil.reportsServerUrl+"?/"+PropertiesUtil.reportsFolderPath+"/"+reportName+""
-					+ "&rs:Command=Render&rs:Format="+format;
+					+ "&rs:ClearSession=true&rs:Command=Render&rs:Format="+format;
 		if (urlQueryParams != null && !urlQueryParams.trim().equals("")) {
 			url = url+"&"+urlQueryParams;
 		}

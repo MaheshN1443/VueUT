@@ -45,7 +45,7 @@ $(document).ready(function() {
 		console.log("Error >>"+e);
 	}
     $('#example').DataTable({
-    	rowReorder: true
+    	rowReorder: false
     });
 });
 function deleteTestCase(testCaseId) {  //Elimina la fila actual
@@ -62,6 +62,48 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
     	});
     }
 }
+
+function executeTestCase() {
+	
+	var arryCheck = $.find('[id^="checkId"]');
+	var arryLength = arryCheck.length;
+	var obj = {};
+	var count = 0;
+	
+	for (var i = 0; i < arryLength; i++) {
+		var checkId = $(arryCheck[i]).attr('id');
+		var checkVal = 0;
+		if (document.getElementById(checkId).checked) {
+			checkVal = 1;
+			obj[checkId] = true;
+			count++;
+		}
+	}
+	
+	if (count == 0) {
+		alert('Please select atleast one test case.');
+		return false;
+	}
+	
+	
+	var actionUrl = 'executeTestCase';
+	$.ajax({
+		url : actionUrl,
+		type : 'POST',
+		async : false,
+		data  : {
+			'jsonData' : JSON.stringify(obj)
+		}, 
+		success : function(response) {
+			//console.log("response >>>"+response);
+			//alert('Job submitted Successfully !!!');
+			sessionStorage.reloadAfterPageLoad = response;
+			location.reload();
+		}
+	});
+}
+
+
 </script>
 <!-- <p>Vue App</p>
 <a href="./MyServlet">Please click here</a>
@@ -79,12 +121,18 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 	  <button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
 	<div class="page-header">
-	  <h1>Test Cases</h1>
+	  <h1>Test Cases
+	  <span style="margin-left: 1030px;">
+		  <button type="button" class="btn btn-primary purpule" onclick="executeTestCase();">Execute</button>
+	  </span>
+	  </h1>
 	  <hr>
 	</div>
 	<table id="example" class="table table-condensed">
+	
 		<thead>
 			<tr>
+			<th width="5%"></th>
 			<th width="10%">Module Name</th>
 			<th width="30%">Test Case Name</th>
 			<th width="30%">Procedure Name</th>
@@ -100,6 +148,7 @@ function deleteTestCase(testCaseId) {  //Elimina la fila actual
 					boolean status = tc.isActive();
 				%>
 				<tr>
+				<td><input type="checkbox" class="form-control" style="width: 19px !important;" id="checkId<%=tc.getTestCaseID()%>"></td>
 				<td><%=tc.getModuleName() %></td>
 				<td><%=tc.getTestCaseName() %></td>
 				<td><%=tc.getProcName() %></td>

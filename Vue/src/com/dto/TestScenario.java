@@ -18,7 +18,7 @@ public class TestScenario {
 	private boolean isActive;
 	private boolean isMultipleStepsReq;
 	
-	private List<TestScenarioMapping> mapping;
+	private ArrayList<TestScenarioMapping> mapping;
 
 	public TestScenario() {
 		
@@ -96,7 +96,7 @@ public class TestScenario {
 	}
 	
 	@XmlElement()
-	public List<TestScenarioMapping> getMapping() {
+	public ArrayList<TestScenarioMapping> getMapping() {
 		return mapping;
 	}
 

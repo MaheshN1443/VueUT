@@ -175,6 +175,15 @@ $(document).ready(function() {
 	$(document).ready(function() {
 		//removeTC();
 	});
+
+    $(document).ready(function() {
+    	var addStatus = $('#addStatus').val();
+    	if (addStatus != undefined && addStatus != null && addStatus != '' && addStatus != 'null') {
+    		$('#failure').css('display','').html("Failed to add Scenario.");
+    		$('#failure').delay(1000).fadeOut('slow');		
+    	}
+    });
+ 
     function callModalPopup(groupId) {
     	var testScenarioId = $('#testScenarioID').val().toString();
     	var actionUrl = 'changeOrder?testScenarioId='+testScenarioId+'&groupId='+groupId;
@@ -233,7 +242,8 @@ $(document).ready(function() {
 	  <hr>
 	</div>
 	<div class="panel-body">
-	    <form id="form1">
+	    <form id="editTestScenarioData" action="./editScenarioData" method="post">
+	    <input type="hidden" id="addStatus" value="<%=(String) request.getAttribute("addStatus")%>">
 		<div class="col-md-12 col-sm-12">
 			<div class="row">
 			<div class="form-group col-md-4 col-sm-8">
@@ -244,25 +254,26 @@ $(document).ready(function() {
 	            <label for="name">Sub Module</label>
 	            <input type="text" class="form-control input-sm" value="<%=tc.getSubModuleName()%>" disabled="disabled">
 	        </div>
-	        <div class="form-group col-md-2 col-sm-4" style="padding-top: 7px;">
-	        <label for="name">Active 
-	            <%if(tc.isActive()) { %>
-	            <input type="checkbox" class="form-control input-sm" checked="checked" disabled="disabled">
-	            <%} else { %>
-	            <input type="checkbox" class="form-control input-sm" disabled="disabled">
-	            <%} %>
-	            </label>
-	            </div>
-	        </div>
-	        <div class="row">
-	        <div class="form-group col-md-4 col-sm-8">
-	            <label for="name">Scenario</label>
-	            <input type="text" class="form-control input-sm" value="<%=tc.getScenarioName()%>" disabled="disabled">
-	        </div>
 	        <div class="form-group col-md-4 col-sm-8">
 	            <label for="name">Scenario Code</label>
 	            <input type="text" class="form-control input-sm" value="<%=tc.getScenarioCode()%>" disabled="disabled">
 	        </div>
+	        </div>
+	        <div class="row">
+	        <div class="form-group col-md-4 col-sm-8">
+	            <label for="name">Scenario</label>
+	            <input type="text" class="form-control input-sm" name="scenarioName" value="<%=tc.getScenarioName()%>">
+	        </div>
+
+	        <div class="form-group col-md-2 col-sm-4" style="padding-top: 7px;">
+	        <label for="name">Active 
+	            <%if(tc.isActive()) { %>
+	            <input type="checkbox" class="form-control input-sm" name="isActive" checked="checked" >
+	            <%} else { %>
+	            <input type="checkbox" class="form-control input-sm" name="isActive" >
+	            <%} %>
+	            </label>
+	            </div>
 	        <%-- <div class="form-group col-md-4 col-sm-8">
 	            <label for="name">Active 
 	            <%if(tc.isActive()) { %>
@@ -277,10 +288,19 @@ $(document).ready(function() {
 	        <div class="row">
 	        	<div class="form-group col-md-4 col-sm-8">
 	            <label for="name">Description</label>
-	            <textarea rows="4" cols="117" disabled="disabled"><%=tc.getDescription()%></textarea>
+	            <textarea rows="4" cols="117" name="description"><%=tc.getDescription()%></textarea>
 	        </div>
 	        </div>
-	          
+	        <div class="row">
+	        <div class="form-group col-md-4 col-sm-8">
+	            <label for="name"></label>
+	            <!-- <input type="submit" class="form-control input-sm" name="Submit"> -->
+	            <button type="submit" class="btn btn-labeled btn-success">Update</button>
+	            
+	        </div>
+	        <div class="form-group col-md-4 col-sm-8">
+	        </div>
+	        </div>
 		</div>
 	</form>
 	<form class="" id="form2">

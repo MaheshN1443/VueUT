@@ -238,7 +238,7 @@ function execute() {
 				%>
 				<tr>
 				<td><input type="checkbox" class="form-control" style="width: 19px !important;" id="checkId<%=ts.getTestScenarioID()%>"></td>
-				<td><%=ts.getModuleName() %></td>
+				<td><p class ="text-primary"><%=ts.getModuleName() %></p></td>
 				<td><%=ts.getSubModuleName() %></td>
 				<td><%=ts.getScenarioCode()%></td>
 				<td><%=ts.getScenarioName()%></td>
